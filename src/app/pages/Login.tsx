@@ -87,14 +87,10 @@ export default function Login() {
             </div>
           </Link>
 
-<<<<<<< HEAD
           <h1
             className="text-4xl md:text-5xl mb-3 tracking-tight"
             style={{ fontStyle: "italic" }}
           >
-=======
-          <h1 className="text-4xl md:text-5xl mb-3 tracking-tight" style={{ fontStyle: "italic" }}>
->>>>>>> e1b89ca37f6a4891588ea159bdfce7cb24b5a4d6
             Welcome Back
           </h1>
           <p className="text-white/60">Sign in to access your account</p>
@@ -110,11 +106,21 @@ export default function Login() {
           <div className="mb-6 p-3 rounded-xl bg-gold/10 border border-gold/20 flex items-start gap-3">
             <AlertCircle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
             <div className="text-xs text-gold/80 space-y-1">
-              <span className="font-semibold text-gold block">Demo credentials:</span>
-              <span className="block">Parent: parent@example.com / parent123</span>
-              <span className="block">Student: student@example.com / student123</span>
-              <span className="block">Teacher: teacher@example.com / teacher123</span>
-              <span className="block">Admin: admin@harmonyacademy.com / admin123</span>
+              <span className="font-semibold text-gold block">
+                Demo credentials:
+              </span>
+              <span className="block">
+                Parent: parent@example.com / parent123
+              </span>
+              <span className="block">
+                Student: student@example.com / student123
+              </span>
+              <span className="block">
+                Teacher: teacher@example.com / teacher123
+              </span>
+              <span className="block">
+                Admin: admin@harmonyacademy.com / admin123
+              </span>
             </div>
           </div>
 
@@ -143,7 +149,9 @@ export default function Login() {
                 } focus:outline-none`}
                 placeholder="your@email.com"
               />
-              {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
+              {errors.email && (
+                <p className="text-xs text-destructive mt-1">{errors.email}</p>
+              )}
             </div>
 
             <div>
@@ -163,15 +171,11 @@ export default function Login() {
                 } focus:outline-none`}
                 placeholder="••••••••"
               />
-<<<<<<< HEAD
               {errors.password && (
                 <p className="text-xs text-destructive mt-1">
                   {errors.password}
                 </p>
               )}
-=======
-              {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
->>>>>>> e1b89ca37f6a4891588ea159bdfce7cb24b5a4d6
             </div>
 
             <div className="flex items-center justify-between">
