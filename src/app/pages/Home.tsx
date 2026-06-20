@@ -1,5 +1,14 @@
 import { Link } from "react-router";
-import { ArrowRight, Award, Users, Music, Star, Calendar, ShoppingBag, BookOpen } from "lucide-react";
+import {
+  ArrowRight,
+  Award,
+  Users,
+  Music,
+  Star,
+  Calendar,
+  ShoppingBag,
+  BookOpen,
+} from "lucide-react";
 import { motion } from "motion/react";
 import ParallaxHero from "../components/ParallaxHero";
 
@@ -7,89 +16,105 @@ const featuredLessons = [
   {
     id: "piano",
     title: "Piano Lessons",
-    description: "Master the piano with our expert instructors. From classical to contemporary.",
-    image: "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Master the piano with our expert instructors. From classical to contemporary.",
+    image:
+      "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     levels: "Beginner to Advanced",
     duration: "30-60 min",
-    price: "From $45/session"
+    price: "From $45/session",
   },
   {
     id: "guitar",
     title: "Guitar Lessons",
-    description: "Learn acoustic, electric, or bass guitar with personalized instruction.",
-    image: "https://images.unsplash.com/photo-1758524944402-1903b38f848f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Learn acoustic, electric, or bass guitar with personalized instruction.",
+    image:
+      "https://images.unsplash.com/photo-1758524944402-1903b38f848f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     levels: "All Levels",
     duration: "30-60 min",
-    price: "From $40/session"
+    price: "From $40/session",
   },
   {
     id: "vocals",
     title: "Vocal Training",
-    description: "Develop your voice with professional vocal coaching and technique training.",
-    image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Develop your voice with professional vocal coaching and technique training.",
+    image:
+      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     levels: "Beginner to Pro",
     duration: "45-60 min",
-    price: "From $50/session"
+    price: "From $50/session",
   },
   {
     id: "violin",
     title: "Violin Lessons",
-    description: "Classical and contemporary violin instruction for all skill levels.",
-    image: "https://images.unsplash.com/photo-1566913485242-694e995731b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Classical and contemporary violin instruction for all skill levels.",
+    image:
+      "https://images.unsplash.com/photo-1566913485242-694e995731b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     levels: "All Levels",
     duration: "30-60 min",
-    price: "From $48/session"
-  }
+    price: "From $48/session",
+  },
 ];
 
 const whyChooseUs = [
   {
     icon: Award,
     title: "Expert Instructors",
-    description: "Learn from award-winning musicians and certified music educators with decades of experience."
+    description:
+      "Learn from award-winning musicians and certified music educators with decades of experience.",
   },
   {
     icon: Users,
     title: "Personalized Learning",
-    description: "Customized lesson plans tailored to your goals, skill level, and musical preferences."
+    description:
+      "Customized lesson plans tailored to your goals, skill level, and musical preferences.",
   },
   {
     icon: Music,
     title: "State-of-the-Art Facilities",
-    description: "Practice in professional studios equipped with premium instruments and technology."
+    description:
+      "Practice in professional studios equipped with premium instruments and technology.",
   },
   {
     icon: Star,
     title: "Proven Results",
-    description: "Join thousands of successful students who have achieved their musical dreams with us."
-  }
+    description:
+      "Join thousands of successful students who have achieved their musical dreams with us.",
+  },
 ];
 
 const instructors = [
   {
     name: "Sarah Mitchell",
     specialty: "Piano & Music Theory",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-    credentials: "Juilliard Graduate, 15+ Years"
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    credentials: "Juilliard Graduate, 15+ Years",
   },
   {
     name: "Michael Chen",
     specialty: "Guitar & Composition",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-    credentials: "Berklee Alumni, Grammy Nominee"
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    credentials: "Berklee Alumni, Grammy Nominee",
   },
   {
     name: "Emily Rodriguez",
     specialty: "Vocal Performance",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-    credentials: "Opera Singer, Voice Coach"
+    image:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    credentials: "Opera Singer, Voice Coach",
   },
   {
     name: "David Thompson",
     specialty: "Drums & Percussion",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-    credentials: "Studio Musician, 20+ Years"
-  }
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+    credentials: "Studio Musician, 20+ Years",
+  },
 ];
 
 const upcomingEvents = [
@@ -99,7 +124,8 @@ const upcomingEvents = [
     date: "June 15, 2026",
     time: "7:00 PM",
     location: "Main Concert Hall",
-    image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600"
+    image:
+      "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
   },
   {
     id: "jazz-workshop",
@@ -107,7 +133,8 @@ const upcomingEvents = [
     date: "June 22, 2026",
     time: "2:00 PM",
     location: "Studio A",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600"
+    image:
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
   },
   {
     id: "guest-concert",
@@ -115,29 +142,33 @@ const upcomingEvents = [
     date: "July 5, 2026",
     time: "8:00 PM",
     location: "Grand Theater",
-    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600"
-  }
+    image:
+      "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+  },
 ];
 
 const testimonials = [
   {
     name: "Jessica Parker",
     role: "Adult Piano Student",
-    content: "Harmony Academy transformed my relationship with music. The instructors are patient, knowledgeable, and truly care about your progress.",
-    rating: 5
+    content:
+      "Liszthoven Academy transformed my relationship with music. The instructors are patient, knowledgeable, and truly care about your progress.",
+    rating: 5,
   },
   {
     name: "Mark Johnson",
     role: "Parent of Student",
-    content: "My daughter has been taking violin lessons for 2 years. Her confidence and skill have grown tremendously. Highly recommended!",
-    rating: 5
+    content:
+      "My daughter has been taking violin lessons for 2 years. Her confidence and skill have grown tremendously. Highly recommended!",
+    rating: 5,
   },
   {
     name: "Amanda Lee",
     role: "Vocal Student",
-    content: "The vocal coaching here is exceptional. I've learned techniques that have completely changed my performance abilities.",
-    rating: 5
-  }
+    content:
+      "The vocal coaching here is exceptional. I've learned techniques that have completely changed my performance abilities.",
+    rating: 5,
+  },
 ];
 
 const storeProducts = [
@@ -146,56 +177,66 @@ const storeProducts = [
     name: "Premium Acoustic Guitar",
     category: "Guitars",
     price: "$899",
-    image: "https://images.unsplash.com/photo-1556379118-7034d926d258?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400"
+    image:
+      "https://images.unsplash.com/photo-1556379118-7034d926d258?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
   },
   {
     id: "digital-piano",
     name: "88-Key Digital Piano",
     category: "Keyboards",
     price: "$1,299",
-    image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400"
+    image:
+      "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
   },
   {
     id: "violin-set",
     name: "Professional Violin Set",
     category: "Strings",
     price: "$749",
-    image: "https://images.unsplash.com/photo-1624367171718-14026220ee35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400"
+    image:
+      "https://images.unsplash.com/photo-1624367171718-14026220ee35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
   },
   {
     id: "drum-kit",
     name: "5-Piece Drum Kit",
     category: "Percussion",
     price: "$1,599",
-    image: "https://images.unsplash.com/photo-1519508234439-4f23643125c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400"
-  }
+    image:
+      "https://images.unsplash.com/photo-1519508234439-4f23643125c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+  },
 ];
 
 const latestNews = [
   {
     id: "summer-program",
     title: "Summer Intensive Program Announced",
-    excerpt: "Join our exclusive 6-week summer program featuring masterclasses and ensemble performances.",
+    excerpt:
+      "Join our exclusive 6-week summer program featuring masterclasses and ensemble performances.",
     date: "May 10, 2026",
-    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
-    category: "Programs"
+    image:
+      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    category: "Programs",
   },
   {
     id: "competition-winners",
     title: "Students Win Regional Competition",
-    excerpt: "Three of our talented students took top honors at the Regional Music Competition.",
+    excerpt:
+      "Three of our talented students took top honors at the Regional Music Competition.",
     date: "May 8, 2026",
-    image: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
-    category: "Achievements"
+    image:
+      "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    category: "Achievements",
   },
   {
     id: "new-instructor",
     title: "Welcoming Renowned Violinist to Faculty",
-    excerpt: "We're thrilled to announce the addition of award-winning violinist Maria Santos to our teaching staff.",
+    excerpt:
+      "We're thrilled to announce the addition of award-winning violinist Maria Santos to our teaching staff.",
     date: "May 5, 2026",
-    image: "https://images.unsplash.com/photo-1566913485268-1287f67f87fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
-    category: "Faculty"
-  }
+    image:
+      "https://images.unsplash.com/photo-1566913485268-1287f67f87fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    category: "Faculty",
+  },
 ];
 
 export default function Home() {
@@ -215,12 +256,19 @@ export default function Home() {
             <div className="inline-block mb-8 px-6 py-2.5 bg-gold/10 backdrop-blur-sm border border-gold/30 rounded-full text-gold text-sm tracking-wide">
               Inspiring Musicians Since 1995
             </div>
-            <h1 className="text-6xl md:text-8xl lg:text-9xl mb-8 tracking-tight leading-[0.9]" style={{ fontStyle: 'italic' }}>
+            <h1
+              className="text-6xl md:text-8xl lg:text-9xl mb-8 tracking-tight leading-[0.9]"
+              style={{ fontStyle: "italic" }}
+            >
               Discover Your
               <span className="block text-gold mt-2">Musical Journey</span>
             </h1>
-            <p className="text-xl md:text-2xl lg:text-3xl text-white/70 mb-14 max-w-4xl mx-auto leading-relaxed" style={{ fontStyle: 'normal' }}>
-              World-class music education for all ages and skill levels. Learn from expert instructors in our state-of-the-art facilities.
+            <p
+              className="text-xl md:text-2xl lg:text-3xl text-white/70 mb-14 max-w-4xl mx-auto leading-relaxed"
+              style={{ fontStyle: "normal" }}
+            >
+              World-class music education for all ages and skill levels. Learn
+              from expert instructors in our state-of-the-art facilities.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link
@@ -248,9 +296,12 @@ export default function Home() {
             <div className="inline-block mb-4 px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-sm font-medium">
               Our Programs
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Lessons</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Featured Lessons
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover our most popular music lessons, taught by world-class instructors
+              Discover our most popular music lessons, taught by world-class
+              instructors
             </p>
           </div>
 
@@ -278,18 +329,26 @@ export default function Home() {
                       <h3 className="text-xl font-semibold mb-2 group-hover:text-gold transition-colors">
                         {lesson.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground mb-4">{lesson.description}</p>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {lesson.description}
+                      </p>
                       <div className="space-y-2 text-xs text-muted-foreground">
                         <div className="flex justify-between">
                           <span>Level:</span>
-                          <span className="font-medium text-foreground">{lesson.levels}</span>
+                          <span className="font-medium text-foreground">
+                            {lesson.levels}
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span>Duration:</span>
-                          <span className="font-medium text-foreground">{lesson.duration}</span>
+                          <span className="font-medium text-foreground">
+                            {lesson.duration}
+                          </span>
                         </div>
                         <div className="flex justify-between items-center pt-2 border-t border-border">
-                          <span className="text-gold font-semibold text-base">{lesson.price}</span>
+                          <span className="text-gold font-semibold text-base">
+                            {lesson.price}
+                          </span>
                           <ArrowRight className="w-4 h-4 text-gold group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
@@ -319,9 +378,12 @@ export default function Home() {
             <div className="inline-block mb-4 px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-sm font-medium">
               Why Choose Us
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Excellence in Music Education</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Excellence in Music Education
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover what makes Harmony Academy the premier choice for music education
+              Discover what makes Liszthoven Academy the premier choice for
+              music education
             </p>
           </div>
 
@@ -353,7 +415,9 @@ export default function Home() {
             <div className="inline-block mb-4 px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-sm font-medium">
               Our Team
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Meet Our Instructors</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Meet Our Instructors
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Learn from award-winning musicians and certified educators
             </p>
@@ -378,12 +442,18 @@ export default function Home() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <h3 className="text-xl font-semibold mb-1">{instructor.name}</h3>
-                      <p className="text-gold text-sm">{instructor.specialty}</p>
+                      <h3 className="text-xl font-semibold mb-1">
+                        {instructor.name}
+                      </h3>
+                      <p className="text-gold text-sm">
+                        {instructor.specialty}
+                      </p>
                     </div>
                   </div>
                   <div className="p-4 bg-gradient-to-br from-gold/5 to-transparent">
-                    <p className="text-sm text-muted-foreground">{instructor.credentials}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {instructor.credentials}
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -409,7 +479,9 @@ export default function Home() {
             <div className="inline-block mb-4 px-4 py-1.5 bg-gold/20 border border-gold rounded-full text-gold text-sm font-medium">
               Events
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Upcoming Events</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Upcoming Events
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Join us for concerts, workshops, and special performances
             </p>
@@ -434,7 +506,7 @@ export default function Home() {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-4 right-4 bg-gold text-primary px-3 py-1.5 rounded-lg text-sm font-semibold">
-                        {event.date.split(',')[0]}
+                        {event.date.split(",")[0]}
                       </div>
                     </div>
                     <div className="p-6">
@@ -444,7 +516,9 @@ export default function Home() {
                       <div className="space-y-2 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-gold" />
-                          <span>{event.date} at {event.time}</span>
+                          <span>
+                            {event.date} at {event.time}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Music className="w-4 h-4 text-gold" />
@@ -483,7 +557,9 @@ export default function Home() {
             <div className="inline-block mb-4 px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-sm font-medium">
               Testimonials
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">What Our Students Say</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              What Our Students Say
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Hear from our community of passionate musicians
             </p>
@@ -504,10 +580,14 @@ export default function Home() {
                     <Star key={i} className="w-5 h-5 fill-gold text-gold" />
                   ))}
                 </div>
-                <p className="text-foreground mb-6 leading-relaxed">"{testimonial.content}"</p>
+                <p className="text-foreground mb-6 leading-relaxed">
+                  "{testimonial.content}"
+                </p>
                 <div>
                   <div className="font-semibold">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {testimonial.role}
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -522,7 +602,9 @@ export default function Home() {
             <div className="inline-block mb-4 px-4 py-1.5 bg-gold/10 border border-gold/20 rounded-full text-gold text-sm font-medium">
               Music Store
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Products</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Featured Products
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Premium instruments and accessories for every musician
             </p>
@@ -553,11 +635,15 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <div className="text-xs text-gold mb-2">{product.category}</div>
+                      <div className="text-xs text-gold mb-2">
+                        {product.category}
+                      </div>
                       <h3 className="font-semibold mb-2 group-hover:text-gold transition-colors">
                         {product.name}
                       </h3>
-                      <div className="text-xl font-bold text-gold">{product.price}</div>
+                      <div className="text-xl font-bold text-gold">
+                        {product.price}
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -586,7 +672,7 @@ export default function Home() {
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Latest News</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Stay updated with the latest from Harmony Academy
+              Stay updated with the latest from Liszthoven Academy
             </p>
           </div>
 
@@ -613,11 +699,15 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <div className="text-xs text-muted-foreground mb-2">{article.date}</div>
+                      <div className="text-xs text-muted-foreground mb-2">
+                        {article.date}
+                      </div>
                       <h3 className="text-lg font-semibold mb-3 group-hover:text-gold transition-colors">
                         {article.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground mb-4">{article.excerpt}</p>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {article.excerpt}
+                      </p>
                       <span className="text-gold text-sm font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all">
                         Read More
                         <ArrowRight className="w-4 h-4" />
@@ -651,9 +741,12 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <BookOpen className="w-12 h-12 text-gold mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Stay in Tune with Us</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Stay in Tune with Us
+            </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Subscribe to our newsletter for the latest news, events, and exclusive offers
+              Subscribe to our newsletter for the latest news, events, and
+              exclusive offers
             </p>
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input

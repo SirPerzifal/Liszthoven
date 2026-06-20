@@ -1,13 +1,24 @@
 import { useParams, Link } from "react-router";
-import { Clock, Users, Award, DollarSign, CheckCircle, ArrowRight, Calendar, Music } from "lucide-react";
+import {
+  Clock,
+  Users,
+  Award,
+  DollarSign,
+  CheckCircle,
+  ArrowRight,
+  Calendar,
+  Music,
+} from "lucide-react";
 import { motion } from "motion/react";
 
 const lessonData: Record<string, any> = {
   "classical-piano": {
     title: "Classical Piano",
     category: "Piano",
-    description: "Master the timeless repertoire of Bach, Mozart, Beethoven, and beyond with expert classical piano instruction. Our comprehensive program develops strong technique, musical interpretation, and performance confidence.",
-    image: "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+    description:
+      "Master the timeless repertoire of Bach, Mozart, Beethoven, and beyond with expert classical piano instruction. Our comprehensive program develops strong technique, musical interpretation, and performance confidence.",
+    image:
+      "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     duration: "30-60 minutes",
     level: "All Levels",
     price: "From $45/session",
@@ -17,19 +28,35 @@ const lessonData: Record<string, any> = {
         credentials: "Juilliard Graduate, 15+ Years Experience",
         specialization: "Classical Repertoire & Performance",
         bio: "Sarah is a renowned concert pianist and pedagogue with extensive experience teaching students from beginner to advanced levels. Her expertise spans Baroque through Romantic period repertoire.",
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-        schedule: ["Monday-Wednesday: 2:00 PM - 8:00 PM", "Saturday: 9:00 AM - 2:00 PM"],
-        achievements: ["Carnegie Hall Performer", "International Piano Competition Winner", "Published Pedagogue"]
+        image:
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+        schedule: [
+          "Monday-Wednesday: 2:00 PM - 8:00 PM",
+          "Saturday: 9:00 AM - 2:00 PM",
+        ],
+        achievements: [
+          "Carnegie Hall Performer",
+          "International Piano Competition Winner",
+          "Published Pedagogue",
+        ],
       },
       {
         name: "Dr. James Harrison",
         credentials: "Ph.D. Music Theory, 20+ Years Teaching",
         specialization: "Music Theory & Technique",
         bio: "Dr. Harrison combines rigorous theoretical knowledge with practical technique, helping students develop a deep understanding of the music they perform.",
-        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-        schedule: ["Tuesday-Friday: 3:00 PM - 8:00 PM", "Saturday: 10:00 AM - 4:00 PM"],
-        achievements: ["Music Theory Professor", "Author of 3 Books", "Master Class Clinician"]
-      }
+        image:
+          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+        schedule: [
+          "Tuesday-Friday: 3:00 PM - 8:00 PM",
+          "Saturday: 10:00 AM - 4:00 PM",
+        ],
+        achievements: [
+          "Music Theory Professor",
+          "Author of 3 Books",
+          "Master Class Clinician",
+        ],
+      },
     ],
     whatYouLearn: [
       "Proper hand position and posture",
@@ -37,34 +64,55 @@ const lessonData: Record<string, any> = {
       "Technical exercises and etudes",
       "Classical repertoire from Baroque to Romantic",
       "Performance preparation and stage presence",
-      "Musical interpretation and expression"
+      "Musical interpretation and expression",
     ],
     curriculum: [
       {
         level: "Beginner",
-        topics: ["Basic hand position", "Reading treble and bass clef", "Simple melodies", "Basic rhythm"]
+        topics: [
+          "Basic hand position",
+          "Reading treble and bass clef",
+          "Simple melodies",
+          "Basic rhythm",
+        ],
       },
       {
         level: "Intermediate",
-        topics: ["Scale and arpeggio mastery", "Classical sonatinas", "Pedal technique", "Musical phrasing"]
+        topics: [
+          "Scale and arpeggio mastery",
+          "Classical sonatinas",
+          "Pedal technique",
+          "Musical phrasing",
+        ],
       },
       {
         level: "Advanced",
-        topics: ["Major sonatas and concertos", "Advanced repertoire", "Performance coaching", "Competition preparation"]
-      }
+        topics: [
+          "Major sonatas and concertos",
+          "Advanced repertoire",
+          "Performance coaching",
+          "Competition preparation",
+        ],
+      },
     ],
-    schedule: ["Monday-Friday: 2:00 PM - 8:00 PM", "Saturday: 9:00 AM - 5:00 PM", "Sunday: By Appointment"],
+    schedule: [
+      "Monday-Friday: 2:00 PM - 8:00 PM",
+      "Saturday: 9:00 AM - 5:00 PM",
+      "Sunday: By Appointment",
+    ],
     pricing: [
       { duration: "30 minutes", price: "$45", best: false },
       { duration: "45 minutes", price: "$60", best: true },
-      { duration: "60 minutes", price: "$75", best: false }
-    ]
+      { duration: "60 minutes", price: "$75", best: false },
+    ],
   },
   "jazz-piano": {
     title: "Jazz Piano",
     category: "Piano",
-    description: "Explore the world of jazz piano with comprehensive training in improvisation, chord voicings, and jazz standards.",
-    image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+    description:
+      "Explore the world of jazz piano with comprehensive training in improvisation, chord voicings, and jazz standards.",
+    image:
+      "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     duration: "45-60 minutes",
     level: "Intermediate to Advanced",
     price: "From $50/session",
@@ -74,40 +122,63 @@ const lessonData: Record<string, any> = {
         credentials: "Berklee Alumni, Grammy Nominee",
         specialization: "Jazz Improvisation & Composition",
         bio: "Michael is an accomplished jazz pianist and composer who has performed with internationally renowned artists and recorded multiple albums.",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-        schedule: ["Monday-Friday: 3:00 PM - 9:00 PM", "Saturday: 10:00 AM - 6:00 PM"],
-        achievements: ["Grammy Nomination 2024", "5 Studio Albums", "International Jazz Festival Performer"]
-      }
+        image:
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+        schedule: [
+          "Monday-Friday: 3:00 PM - 9:00 PM",
+          "Saturday: 10:00 AM - 6:00 PM",
+        ],
+        achievements: [
+          "Grammy Nomination 2024",
+          "5 Studio Albums",
+          "International Jazz Festival Performer",
+        ],
+      },
     ],
     whatYouLearn: [
-      "Jazz harmony and chord progressions",
+      "Jazz Liszthoven and chord progressions",
       "Improvisation techniques and scales",
       "Comping and accompaniment",
       "Jazz standards repertoire",
       "Rhythm and swing feel",
-      "Left-hand voicings and rootless chords"
+      "Left-hand voicings and rootless chords",
     ],
     curriculum: [
       {
         level: "Intermediate",
-        topics: ["Basic jazz voicings", "Blues scales", "II-V-I progressions", "Simple improvisation"]
+        topics: [
+          "Basic jazz voicings",
+          "Blues scales",
+          "II-V-I progressions",
+          "Simple improvisation",
+        ],
       },
       {
         level: "Advanced",
-        topics: ["Advanced reharmonization", "Modal jazz", "Bebop lines", "Complex improvisations"]
-      }
+        topics: [
+          "Advanced reharmonization",
+          "Modal jazz",
+          "Bebop lines",
+          "Complex improvisations",
+        ],
+      },
     ],
-    schedule: ["Monday-Friday: 3:00 PM - 9:00 PM", "Saturday: 10:00 AM - 6:00 PM"],
+    schedule: [
+      "Monday-Friday: 3:00 PM - 9:00 PM",
+      "Saturday: 10:00 AM - 6:00 PM",
+    ],
     pricing: [
       { duration: "45 minutes", price: "$60", best: false },
-      { duration: "60 minutes", price: "$75", best: true }
-    ]
+      { duration: "60 minutes", price: "$75", best: true },
+    ],
   },
   "acoustic-guitar": {
     title: "Acoustic Guitar",
     category: "Guitar",
-    description: "Develop fingerpicking, strumming patterns, and acoustic guitar mastery with personalized instruction.",
-    image: "https://images.unsplash.com/photo-1758524944402-1903b38f848f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+    description:
+      "Develop fingerpicking, strumming patterns, and acoustic guitar mastery with personalized instruction.",
+    image:
+      "https://images.unsplash.com/photo-1758524944402-1903b38f848f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     duration: "30-60 minutes",
     level: "All Levels",
     price: "From $40/session",
@@ -117,10 +188,18 @@ const lessonData: Record<string, any> = {
         credentials: "Berklee Alumni, Professional Guitarist",
         specialization: "Fingerstyle & Contemporary Acoustic",
         bio: "Michael specializes in acoustic fingerstyle and has taught hundreds of students to master the guitar.",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-        schedule: ["Monday-Friday: 2:00 PM - 8:00 PM", "Saturday: 9:00 AM - 5:00 PM"],
-        achievements: ["Session Musician", "Published Instructional Books", "YouTube Education Channel"]
-      }
+        image:
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+        schedule: [
+          "Monday-Friday: 2:00 PM - 8:00 PM",
+          "Saturday: 9:00 AM - 5:00 PM",
+        ],
+        achievements: [
+          "Session Musician",
+          "Published Instructional Books",
+          "YouTube Education Channel",
+        ],
+      },
     ],
     whatYouLearn: [
       "Proper guitar holding and posture",
@@ -128,34 +207,54 @@ const lessonData: Record<string, any> = {
       "Fingerpicking techniques",
       "Music theory fundamentals",
       "Song accompaniment",
-      "Performance techniques"
+      "Performance techniques",
     ],
     curriculum: [
       {
         level: "Beginner",
-        topics: ["Basic chords", "Simple strumming", "Reading tabs", "Popular songs"]
+        topics: [
+          "Basic chords",
+          "Simple strumming",
+          "Reading tabs",
+          "Popular songs",
+        ],
       },
       {
         level: "Intermediate",
-        topics: ["Barre chords", "Fingerpicking patterns", "Music theory", "Genre exploration"]
+        topics: [
+          "Barre chords",
+          "Fingerpicking patterns",
+          "Music theory",
+          "Genre exploration",
+        ],
       },
       {
         level: "Advanced",
-        topics: ["Advanced fingerstyle", "Complex arrangements", "Composition", "Performance"]
-      }
+        topics: [
+          "Advanced fingerstyle",
+          "Complex arrangements",
+          "Composition",
+          "Performance",
+        ],
+      },
     ],
-    schedule: ["Monday-Friday: 2:00 PM - 8:00 PM", "Saturday: 9:00 AM - 5:00 PM"],
+    schedule: [
+      "Monday-Friday: 2:00 PM - 8:00 PM",
+      "Saturday: 9:00 AM - 5:00 PM",
+    ],
     pricing: [
       { duration: "30 minutes", price: "$40", best: false },
       { duration: "45 minutes", price: "$55", best: true },
-      { duration: "60 minutes", price: "$70", best: false }
-    ]
+      { duration: "60 minutes", price: "$70", best: false },
+    ],
   },
-  "violin": {
+  violin: {
     title: "Violin",
     category: "Strings",
-    description: "Classical and contemporary violin instruction for all skill levels with focus on technique and musicality.",
-    image: "https://images.unsplash.com/photo-1566913485242-694e995731b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+    description:
+      "Classical and contemporary violin instruction for all skill levels with focus on technique and musicality.",
+    image:
+      "https://images.unsplash.com/photo-1566913485242-694e995731b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     duration: "30-60 minutes",
     level: "All Levels",
     price: "From $48/session",
@@ -165,19 +264,35 @@ const lessonData: Record<string, any> = {
         credentials: "Former Symphony Orchestra Member",
         specialization: "Orchestral & Chamber Music",
         bio: "Lisa brings years of orchestral and chamber music experience to her comprehensive violin instruction.",
-        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-        schedule: ["Monday-Friday: 2:00 PM - 8:00 PM", "Saturday: 10:00 AM - 4:00 PM"],
-        achievements: ["20 Years Orchestra Experience", "Chamber Music Specialist", "Suzuki Method Certified"]
+        image:
+          "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+        schedule: [
+          "Monday-Friday: 2:00 PM - 8:00 PM",
+          "Saturday: 10:00 AM - 4:00 PM",
+        ],
+        achievements: [
+          "20 Years Orchestra Experience",
+          "Chamber Music Specialist",
+          "Suzuki Method Certified",
+        ],
       },
       {
         name: "Maria Santos",
         credentials: "International Soloist",
         specialization: "Solo Performance & Competition Preparation",
         bio: "Maria is an internationally acclaimed violinist specializing in solo performance and competition coaching.",
-        image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-        schedule: ["Tuesday-Thursday: 4:00 PM - 9:00 PM", "Sunday: 12:00 PM - 6:00 PM"],
-        achievements: ["Paganini Competition Winner", "International Concert Tours", "Recorded 10+ Albums"]
-      }
+        image:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+        schedule: [
+          "Tuesday-Thursday: 4:00 PM - 9:00 PM",
+          "Sunday: 12:00 PM - 6:00 PM",
+        ],
+        achievements: [
+          "Paganini Competition Winner",
+          "International Concert Tours",
+          "Recorded 10+ Albums",
+        ],
+      },
     ],
     whatYouLearn: [
       "Proper bow hold and posture",
@@ -185,29 +300,47 @@ const lessonData: Record<string, any> = {
       "Bowing techniques and articulation",
       "Classical and contemporary repertoire",
       "Vibrato and tone production",
-      "Ensemble and performance skills"
+      "Ensemble and performance skills",
     ],
     curriculum: [
       {
         level: "Beginner",
-        topics: ["Basic bow technique", "First position", "Simple melodies", "Reading music"]
+        topics: [
+          "Basic bow technique",
+          "First position",
+          "Simple melodies",
+          "Reading music",
+        ],
       },
       {
         level: "Intermediate",
-        topics: ["Position shifts", "Vibrato", "Scales and arpeggios", "Intermediate repertoire"]
+        topics: [
+          "Position shifts",
+          "Vibrato",
+          "Scales and arpeggios",
+          "Intermediate repertoire",
+        ],
       },
       {
         level: "Advanced",
-        topics: ["Advanced technique", "Concertos", "Orchestra excerpts", "Performance preparation"]
-      }
+        topics: [
+          "Advanced technique",
+          "Concertos",
+          "Orchestra excerpts",
+          "Performance preparation",
+        ],
+      },
     ],
-    schedule: ["Monday-Friday: 2:00 PM - 8:00 PM", "Saturday: 10:00 AM - 4:00 PM"],
+    schedule: [
+      "Monday-Friday: 2:00 PM - 8:00 PM",
+      "Saturday: 10:00 AM - 4:00 PM",
+    ],
     pricing: [
       { duration: "30 minutes", price: "$48", best: false },
       { duration: "45 minutes", price: "$63", best: true },
-      { duration: "60 minutes", price: "$78", best: false }
-    ]
-  }
+      { duration: "60 minutes", price: "$78", best: false },
+    ],
+  },
 };
 
 export default function LessonDetail() {
@@ -249,7 +382,9 @@ export default function LessonDetail() {
             <div className="inline-block mb-4 px-4 py-2 bg-gold/20 border border-gold rounded-full text-gold text-sm">
               {lesson.category} Lessons
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">{lesson.title}</h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              {lesson.title}
+            </h1>
             <p className="text-xl text-white/80 max-w-2xl mb-8">
               {lesson.description}
             </p>
@@ -303,11 +438,19 @@ export default function LessonDetail() {
               <h2 className="text-3xl font-bold mb-6">Curriculum by Level</h2>
               <div className="space-y-6">
                 {lesson.curriculum.map((level: any, index: number) => (
-                  <div key={index} className="bg-card rounded-xl p-6 border border-border">
-                    <h3 className="text-xl font-semibold mb-4 text-gold">{level.level}</h3>
+                  <div
+                    key={index}
+                    className="bg-card rounded-xl p-6 border border-border"
+                  >
+                    <h3 className="text-xl font-semibold mb-4 text-gold">
+                      {level.level}
+                    </h3>
                     <ul className="space-y-2">
                       {level.topics.map((topic: string, i: number) => (
-                        <li key={i} className="flex items-center gap-3 text-muted-foreground">
+                        <li
+                          key={i}
+                          className="flex items-center gap-3 text-muted-foreground"
+                        >
                           <Music className="w-4 h-4 text-gold flex-shrink-0" />
                           {topic}
                         </li>
@@ -325,8 +468,13 @@ export default function LessonDetail() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold mb-6" style={{ fontStyle: 'italic' }}>
-                {lesson.instructors.length > 1 ? 'Our Instructors' : 'Your Instructor'}
+              <h2
+                className="text-3xl font-bold mb-6"
+                style={{ fontStyle: "italic" }}
+              >
+                {lesson.instructors.length > 1
+                  ? "Our Instructors"
+                  : "Your Instructor"}
               </h2>
               <div className="space-y-6">
                 {lesson.instructors.map((instructor: any, index: number) => (
@@ -347,27 +495,42 @@ export default function LessonDetail() {
                         />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-semibold mb-1" style={{ fontStyle: 'italic' }}>{instructor.name}</h3>
+                        <h3
+                          className="text-2xl font-semibold mb-1"
+                          style={{ fontStyle: "italic" }}
+                        >
+                          {instructor.name}
+                        </h3>
                         <div className="flex items-center gap-2 text-gold mb-2">
                           <Award className="w-4 h-4" />
-                          <span className="text-sm">{instructor.credentials}</span>
+                          <span className="text-sm">
+                            {instructor.credentials}
+                          </span>
                         </div>
-                        <div className="text-sm font-medium text-gold/80 mb-3">{instructor.specialization}</div>
-                        <p className="text-muted-foreground mb-4">{instructor.bio}</p>
+                        <div className="text-sm font-medium text-gold/80 mb-3">
+                          {instructor.specialization}
+                        </div>
+                        <p className="text-muted-foreground mb-4">
+                          {instructor.bio}
+                        </p>
 
                         {/* Achievements */}
                         {instructor.achievements && (
                           <div className="mb-4">
-                            <div className="text-sm font-medium mb-2">Notable Achievements:</div>
+                            <div className="text-sm font-medium mb-2">
+                              Notable Achievements:
+                            </div>
                             <div className="flex flex-wrap gap-2">
-                              {instructor.achievements.map((achievement: string, i: number) => (
-                                <span
-                                  key={i}
-                                  className="px-3 py-1 bg-gold/10 text-gold text-xs rounded-full border border-gold/20"
-                                >
-                                  {achievement}
-                                </span>
-                              ))}
+                              {instructor.achievements.map(
+                                (achievement: string, i: number) => (
+                                  <span
+                                    key={i}
+                                    className="px-3 py-1 bg-gold/10 text-gold text-xs rounded-full border border-gold/20"
+                                  >
+                                    {achievement}
+                                  </span>
+                                ),
+                              )}
                             </div>
                           </div>
                         )}
@@ -380,11 +543,16 @@ export default function LessonDetail() {
                               Available:
                             </div>
                             <div className="space-y-1">
-                              {instructor.schedule.map((time: string, i: number) => (
-                                <div key={i} className="text-sm text-muted-foreground">
-                                  {time}
-                                </div>
-                              ))}
+                              {instructor.schedule.map(
+                                (time: string, i: number) => (
+                                  <div
+                                    key={i}
+                                    className="text-sm text-muted-foreground"
+                                  >
+                                    {time}
+                                  </div>
+                                ),
+                              )}
                             </div>
                           </div>
                         )}
@@ -417,14 +585,20 @@ export default function LessonDetail() {
                     }`}
                   >
                     {option.best && (
-                      <div className="text-xs text-gold font-semibold mb-2">MOST POPULAR</div>
+                      <div className="text-xs text-gold font-semibold mb-2">
+                        MOST POPULAR
+                      </div>
                     )}
                     <div className="flex justify-between items-center">
                       <div>
                         <div className="font-medium">{option.duration}</div>
-                        <div className="text-sm text-muted-foreground">per session</div>
+                        <div className="text-sm text-muted-foreground">
+                          per session
+                        </div>
                       </div>
-                      <div className="text-2xl font-bold text-gold">{option.price}</div>
+                      <div className="text-2xl font-bold text-gold">
+                        {option.price}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -474,7 +648,9 @@ export default function LessonDetail() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-gold/10 rounded-xl p-6 border border-gold/20"
             >
-              <h3 className="text-lg font-semibold mb-4">Included with Every Lesson</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                Included with Every Lesson
+              </h3>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-center gap-3">
                   <CheckCircle className="w-4 h-4 text-gold flex-shrink-0" />
@@ -509,7 +685,8 @@ export default function LessonDetail() {
           >
             <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Book your first lesson today and begin your musical journey with Harmony Academy
+              Book your first lesson today and begin your musical journey with
+              Liszthoven Academy
             </p>
             <Link
               to="/contact"

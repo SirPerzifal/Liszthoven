@@ -8,7 +8,7 @@ export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    rememberMe: false
+    rememberMe: false,
   });
 
   const [errors, setErrors] = useState<any>({});
@@ -17,7 +17,7 @@ export default function Login() {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     });
 
     if (errors[name]) {
@@ -29,9 +29,11 @@ export default function Login() {
     const newErrors: any = {};
 
     if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email is invalid";
     if (!formData.password.trim()) newErrors.password = "Password is required";
-    else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+    else if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -75,12 +77,15 @@ export default function Login() {
               <Music className="w-7 h-7 text-primary" />
             </div>
             <div className="text-left">
-              <div className="text-xl font-semibold">Harmony Academy</div>
+              <div className="text-xl font-semibold">Liszthoven Academy</div>
               <div className="text-xs text-gold-light">Music School</div>
             </div>
           </Link>
 
-          <h1 className="text-4xl md:text-5xl mb-3 tracking-tight" style={{ fontStyle: 'italic' }}>
+          <h1
+            className="text-4xl md:text-5xl mb-3 tracking-tight"
+            style={{ fontStyle: "italic" }}
+          >
             Welcome Back
           </h1>
           <p className="text-white/60">Sign in to access your account</p>
@@ -104,7 +109,9 @@ export default function Login() {
                 value={formData.email}
                 onChange={handleChange}
                 className={`w-full px-4 py-3 rounded-lg bg-white/5 border transition-colors text-white placeholder:text-white/40 ${
-                  errors.email ? "border-destructive" : "border-white/10 focus:border-gold"
+                  errors.email
+                    ? "border-destructive"
+                    : "border-white/10 focus:border-gold"
                 } focus:outline-none`}
                 placeholder="your@email.com"
               />
@@ -124,12 +131,16 @@ export default function Login() {
                 value={formData.password}
                 onChange={handleChange}
                 className={`w-full px-4 py-3 rounded-lg bg-white/5 border transition-colors text-white placeholder:text-white/40 ${
-                  errors.password ? "border-destructive" : "border-white/10 focus:border-gold"
+                  errors.password
+                    ? "border-destructive"
+                    : "border-white/10 focus:border-gold"
                 } focus:outline-none`}
                 placeholder="••••••••"
               />
               {errors.password && (
-                <p className="text-xs text-destructive mt-1">{errors.password}</p>
+                <p className="text-xs text-destructive mt-1">
+                  {errors.password}
+                </p>
               )}
             </div>
 
@@ -144,7 +155,10 @@ export default function Login() {
                 />
                 <span className="text-sm text-white/70">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-gold hover:text-gold-light transition-colors">
+              <a
+                href="#"
+                className="text-sm text-gold hover:text-gold-light transition-colors"
+              >
                 Forgot password?
               </a>
             </div>
@@ -161,7 +175,10 @@ export default function Login() {
           <div className="mt-6 pt-6 border-t border-white/10 text-center">
             <p className="text-sm text-white/60">
               Don't have an account?{" "}
-              <Link to="/register" className="text-gold hover:text-gold-light transition-colors font-medium">
+              <Link
+                to="/register"
+                className="text-gold hover:text-gold-light transition-colors font-medium"
+              >
                 Register for a course
               </Link>
             </p>

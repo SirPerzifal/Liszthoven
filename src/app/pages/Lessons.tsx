@@ -9,155 +9,203 @@ const allLessons = [
     id: "classical-piano",
     category: "piano",
     title: "Classical Piano",
-    description: "Master the timeless repertoire of Bach, Mozart, Beethoven, and beyond with expert classical piano instruction.",
-    image: "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Master the timeless repertoire of Bach, Mozart, Beethoven, and beyond with expert classical piano instruction.",
+    image:
+      "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "All Levels",
     price: "From $45/session",
     instructor: "Sarah Mitchell",
-    features: ["Technique Development", "Music Theory", "Performance Preparation"]
+    features: [
+      "Technique Development",
+      "Music Theory",
+      "Performance Preparation",
+    ],
   },
   {
     id: "jazz-piano",
     category: "piano",
     title: "Jazz Piano",
-    description: "Explore improvisation, chord voicings, and jazz standards with our contemporary jazz piano program.",
-    image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Explore improvisation, chord voicings, and jazz standards with our contemporary jazz piano program.",
+    image:
+      "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "45-60 min",
     level: "Intermediate to Advanced",
     price: "From $50/session",
     instructor: "Michael Chen",
-    features: ["Improvisation", "Jazz Theory", "Rhythm & Groove"]
+    features: ["Improvisation", "Jazz Theory", "Rhythm & Groove"],
   },
   {
     id: "contemporary-piano",
     category: "piano",
     title: "Contemporary Piano",
-    description: "Learn popular music, contemporary compositions, and modern piano techniques.",
-    image: "https://images.unsplash.com/photo-1512733596533-7b00ccf8ebaf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Learn popular music, contemporary compositions, and modern piano techniques.",
+    image:
+      "https://images.unsplash.com/photo-1512733596533-7b00ccf8ebaf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "Beginner to Advanced",
     price: "From $45/session",
     instructor: "Sarah Mitchell",
-    features: ["Pop & Rock", "Film Music", "Songwriting"]
+    features: ["Pop & Rock", "Film Music", "Songwriting"],
   },
   {
     id: "acoustic-guitar",
     category: "guitar",
     title: "Acoustic Guitar",
-    description: "Develop fingerpicking, strumming patterns, and acoustic guitar mastery.",
-    image: "https://images.unsplash.com/photo-1758524944402-1903b38f848f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Develop fingerpicking, strumming patterns, and acoustic guitar mastery.",
+    image:
+      "https://images.unsplash.com/photo-1758524944402-1903b38f848f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "All Levels",
     price: "From $40/session",
     instructor: "Michael Chen",
-    features: ["Fingerstyle", "Strumming", "Song Accompaniment"]
+    features: ["Fingerstyle", "Strumming", "Song Accompaniment"],
   },
   {
     id: "electric-guitar",
     category: "guitar",
     title: "Electric Guitar",
-    description: "Rock, blues, and metal guitar techniques with professional electric guitar instruction.",
-    image: "https://images.unsplash.com/photo-1563357989-f6cdbbae76cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Rock, blues, and metal guitar techniques with professional electric guitar instruction.",
+    image:
+      "https://images.unsplash.com/photo-1563357989-f6cdbbae76cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "Beginner to Advanced",
     price: "From $40/session",
     instructor: "David Thompson",
-    features: ["Lead Guitar", "Rhythm Guitar", "Effects & Tone"]
+    features: ["Lead Guitar", "Rhythm Guitar", "Effects & Tone"],
   },
   {
     id: "bass-guitar",
     category: "guitar",
     title: "Bass Guitar",
-    description: "Learn the foundation of rhythm with bass guitar lessons covering all styles.",
-    image: "https://images.unsplash.com/photo-1519508234439-4f23643125c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Learn the foundation of rhythm with bass guitar lessons covering all styles.",
+    image:
+      "https://images.unsplash.com/photo-1519508234439-4f23643125c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "All Levels",
     price: "From $40/session",
     instructor: "Michael Chen",
-    features: ["Groove & Rhythm", "Slap Bass", "Music Theory"]
+    features: ["Groove & Rhythm", "Slap Bass", "Music Theory"],
   },
   {
     id: "classical-voice",
     category: "vocals",
     title: "Classical Voice",
-    description: "Professional classical vocal training including opera, art songs, and choral repertoire.",
-    image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Professional classical vocal training including opera, art songs, and choral repertoire.",
+    image:
+      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "45-60 min",
     level: "Intermediate to Advanced",
     price: "From $55/session",
     instructor: "Emily Rodriguez",
-    features: ["Vocal Technique", "Opera", "Art Songs"]
+    features: ["Vocal Technique", "Opera", "Art Songs"],
   },
   {
     id: "pop-vocals",
     category: "vocals",
     title: "Pop & Rock Vocals",
-    description: "Contemporary vocal training for pop, rock, R&B, and modern music styles.",
-    image: "https://images.unsplash.com/photo-1520872024865-3ff2805d8bb5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Contemporary vocal training for pop, rock, R&B, and modern music styles.",
+    image:
+      "https://images.unsplash.com/photo-1520872024865-3ff2805d8bb5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "All Levels",
     price: "From $50/session",
     instructor: "Emily Rodriguez",
-    features: ["Breath Control", "Tone & Style", "Performance"]
+    features: ["Breath Control", "Tone & Style", "Performance"],
   },
   {
     id: "violin",
     category: "strings",
     title: "Violin",
-    description: "Classical and contemporary violin instruction for all skill levels.",
-    image: "https://images.unsplash.com/photo-1566913485242-694e995731b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Classical and contemporary violin instruction for all skill levels.",
+    image:
+      "https://images.unsplash.com/photo-1566913485242-694e995731b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "All Levels",
     price: "From $48/session",
     instructor: "Lisa Anderson",
-    features: ["Bowing Technique", "Intonation", "Repertoire"]
+    features: ["Bowing Technique", "Intonation", "Repertoire"],
   },
   {
     id: "cello",
     category: "strings",
     title: "Cello",
-    description: "Explore the rich, warm tones of the cello with professional instruction.",
-    image: "https://images.unsplash.com/photo-1526142684086-7ebd69df27a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Explore the rich, warm tones of the cello with professional instruction.",
+    image:
+      "https://images.unsplash.com/photo-1526142684086-7ebd69df27a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "All Levels",
     price: "From $48/session",
     instructor: "Lisa Anderson",
-    features: ["Technique", "Chamber Music", "Solo Performance"]
+    features: ["Technique", "Chamber Music", "Solo Performance"],
   },
   {
     id: "drum-set",
     category: "drums",
     title: "Drum Set",
-    description: "Comprehensive drum lessons covering all styles from rock to jazz.",
-    image: "https://images.unsplash.com/photo-1571327073757-71d13c24de30?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Comprehensive drum lessons covering all styles from rock to jazz.",
+    image:
+      "https://images.unsplash.com/photo-1571327073757-71d13c24de30?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "All Levels",
     price: "From $42/session",
     instructor: "David Thompson",
-    features: ["Rudiments", "Groove & Timing", "Independence"]
+    features: ["Rudiments", "Groove & Timing", "Independence"],
   },
   {
     id: "percussion",
     category: "drums",
     title: "Percussion",
-    description: "Orchestral and contemporary percussion including timpani, marimba, and more.",
-    image: "https://images.unsplash.com/photo-1618609378039-b572f64c5b42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    description:
+      "Orchestral and contemporary percussion including timpani, marimba, and more.",
+    image:
+      "https://images.unsplash.com/photo-1618609378039-b572f64c5b42?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     duration: "30-60 min",
     level: "Intermediate to Advanced",
     price: "From $45/session",
     instructor: "David Thompson",
-    features: ["Orchestral Percussion", "Mallet Instruments", "Rhythm"]
-  }
+    features: ["Orchestral Percussion", "Mallet Instruments", "Rhythm"],
+  },
 ];
 
 const categories = [
   { id: "all", name: "All Lessons", count: allLessons.length },
-  { id: "piano", name: "Piano", count: allLessons.filter(l => l.category === "piano").length },
-  { id: "guitar", name: "Guitar", count: allLessons.filter(l => l.category === "guitar").length },
-  { id: "vocals", name: "Vocals", count: allLessons.filter(l => l.category === "vocals").length },
-  { id: "strings", name: "Strings", count: allLessons.filter(l => l.category === "strings").length },
-  { id: "drums", name: "Drums", count: allLessons.filter(l => l.category === "drums").length }
+  {
+    id: "piano",
+    name: "Piano",
+    count: allLessons.filter((l) => l.category === "piano").length,
+  },
+  {
+    id: "guitar",
+    name: "Guitar",
+    count: allLessons.filter((l) => l.category === "guitar").length,
+  },
+  {
+    id: "vocals",
+    name: "Vocals",
+    count: allLessons.filter((l) => l.category === "vocals").length,
+  },
+  {
+    id: "strings",
+    name: "Strings",
+    count: allLessons.filter((l) => l.category === "strings").length,
+  },
+  {
+    id: "drums",
+    name: "Drums",
+    count: allLessons.filter((l) => l.category === "drums").length,
+  },
 ];
 
 const levels = ["All Levels", "Beginner", "Intermediate", "Advanced"];
@@ -166,14 +214,16 @@ export default function Lessons() {
   const { category } = useParams();
   const [selectedLevel, setSelectedLevel] = useState<string>("All Levels");
 
-  const filteredLessons = allLessons.filter(lesson => {
-    const categoryMatch = !category || category === "all" || lesson.category === category;
-    const levelMatch = selectedLevel === "All Levels" || lesson.level.includes(selectedLevel);
+  const filteredLessons = allLessons.filter((lesson) => {
+    const categoryMatch =
+      !category || category === "all" || lesson.category === category;
+    const levelMatch =
+      selectedLevel === "All Levels" || lesson.level.includes(selectedLevel);
     return categoryMatch && levelMatch;
   });
 
   const activeCategory = category || "all";
-  const categoryData = categories.find(c => c.id === activeCategory);
+  const categoryData = categories.find((c) => c.id === activeCategory);
 
   return (
     <div className="bg-background">
@@ -191,10 +241,16 @@ export default function Lessons() {
             <div className="inline-block mb-8 px-6 py-2.5 bg-gold/10 backdrop-blur-sm border border-gold/30 rounded-full text-gold text-sm tracking-wide">
               Professional Instruction
             </div>
-            <h1 className="text-6xl md:text-8xl mb-6 tracking-tight" style={{ fontStyle: 'italic' }}>
+            <h1
+              className="text-6xl md:text-8xl mb-6 tracking-tight"
+              style={{ fontStyle: "italic" }}
+            >
               {categoryData ? categoryData.name : "Music Lessons"}
             </h1>
-            <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto leading-relaxed" style={{ fontStyle: 'normal' }}>
+            <p
+              className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto leading-relaxed"
+              style={{ fontStyle: "normal" }}
+            >
               Discover the perfect lesson for your musical journey
             </p>
           </motion.div>
@@ -246,7 +302,9 @@ export default function Lessons() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredLessons.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-muted-foreground">No lessons found matching your criteria.</p>
+              <p className="text-muted-foreground">
+                No lessons found matching your criteria.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -308,7 +366,9 @@ export default function Lessons() {
                           </div>
 
                           <div className="flex justify-between items-center pt-4 border-t border-border">
-                            <span className="text-gold font-semibold">{lesson.price}</span>
+                            <span className="text-gold font-semibold">
+                              {lesson.price}
+                            </span>
                             <span className="text-gold text-sm font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all">
                               Learn More
                               <ArrowRight className="w-4 h-4" />
@@ -334,9 +394,12 @@ export default function Lessons() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold mb-4">Ready to Start Your Musical Journey?</h2>
+            <h2 className="text-3xl font-bold mb-4">
+              Ready to Start Your Musical Journey?
+            </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Book a free trial lesson and experience the Harmony Academy difference
+              Book a free trial lesson and experience the Liszthoven Academy
+              difference
             </p>
             <Link
               to="/contact"

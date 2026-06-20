@@ -8,112 +8,139 @@ const allArticles = [
   {
     id: "summer-program",
     title: "Summer Intensive Program Announced",
-    excerpt: "Join our exclusive 6-week summer program featuring masterclasses, ensemble performances, and one-on-one instruction from world-class faculty.",
+    excerpt:
+      "Join our exclusive 6-week summer program featuring masterclasses, ensemble performances, and one-on-one instruction from world-class faculty.",
     content: "We're thrilled to announce our Summer Intensive Program...",
     date: "May 10, 2026",
     category: "Programs",
-    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "Emily Rodriguez",
-    readTime: "5 min read"
+    readTime: "5 min read",
   },
   {
     id: "competition-winners",
     title: "Students Win Regional Competition",
-    excerpt: "Three of our talented students took top honors at the Regional Music Competition, showcasing exceptional performances in piano, violin, and vocal categories.",
+    excerpt:
+      "Three of our talented students took top honors at the Regional Music Competition, showcasing exceptional performances in piano, violin, and vocal categories.",
     content: "In a stunning display of musical excellence...",
     date: "May 8, 2026",
     category: "Achievements",
-    image: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "Michael Chen",
-    readTime: "4 min read"
+    readTime: "4 min read",
   },
   {
     id: "new-instructor",
     title: "Welcoming Renowned Violinist to Faculty",
-    excerpt: "We're thrilled to announce the addition of award-winning violinist Maria Santos to our teaching staff. Maria brings decades of performance and teaching experience.",
-    content: "Harmony Academy is proud to welcome...",
+    excerpt:
+      "We're thrilled to announce the addition of award-winning violinist Maria Santos to our teaching staff. Maria brings decades of performance and teaching experience.",
+    content: "Liszthoven Academy is proud to welcome...",
     date: "May 5, 2026",
     category: "Faculty",
-    image: "https://images.unsplash.com/photo-1566913485268-1287f67f87fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1566913485268-1287f67f87fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "Sarah Mitchell",
-    readTime: "3 min read"
+    readTime: "3 min read",
   },
   {
     id: "recital-success",
     title: "Spring Recital: A Resounding Success",
-    excerpt: "Our Spring Student Recital was a spectacular showcase of talent, featuring performances from over 50 students across all instruments and levels.",
+    excerpt:
+      "Our Spring Student Recital was a spectacular showcase of talent, featuring performances from over 50 students across all instruments and levels.",
     content: "The Spring Recital exceeded all expectations...",
     date: "April 28, 2026",
     category: "Events",
-    image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "David Thompson",
-    readTime: "6 min read"
+    readTime: "6 min read",
   },
   {
     id: "practice-tips",
     title: "5 Essential Practice Tips for Musicians",
-    excerpt: "Discover proven strategies to make your practice sessions more effective and enjoyable. From goal-setting to mindful repetition, these tips will transform your approach.",
+    excerpt:
+      "Discover proven strategies to make your practice sessions more effective and enjoyable. From goal-setting to mindful repetition, these tips will transform your approach.",
     content: "Effective practice is the cornerstone of musical growth...",
     date: "April 22, 2026",
     category: "Education",
-    image: "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "Emily Rodriguez",
-    readTime: "7 min read"
+    readTime: "7 min read",
   },
   {
     id: "scholarship-announcement",
     title: "New Scholarship Program for Young Musicians",
-    excerpt: "Harmony Academy launches a scholarship program to support talented young musicians from underserved communities. Applications now open for Fall 2026.",
+    excerpt:
+      "Liszthoven Academy launches a scholarship program to support talented young musicians from underserved communities. Applications now open for Fall 2026.",
     content: "In our commitment to making music education accessible...",
     date: "April 15, 2026",
     category: "Programs",
-    image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "Sarah Mitchell",
-    readTime: "5 min read"
+    readTime: "5 min read",
   },
   {
     id: "jazz-ensemble",
     title: "Student Jazz Ensemble Performs at City Festival",
-    excerpt: "Our advanced jazz ensemble was selected to perform at the Annual City Music Festival, representing Harmony Academy alongside professional musicians.",
-    content: "The Harmony Academy Jazz Ensemble made us proud...",
+    excerpt:
+      "Our advanced jazz ensemble was selected to perform at the Annual City Music Festival, representing Liszthoven Academy alongside professional musicians.",
+    content: "The Liszthoven Academy Jazz Ensemble made us proud...",
     date: "April 10, 2026",
     category: "Achievements",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "Michael Chen",
-    readTime: "4 min read"
+    readTime: "4 min read",
   },
   {
     id: "studio-renovation",
     title: "Studio Renovation Complete: New Practice Spaces",
-    excerpt: "Our newly renovated practice studios feature state-of-the-art acoustics, premium instruments, and comfortable learning environments for all students.",
+    excerpt:
+      "Our newly renovated practice studios feature state-of-the-art acoustics, premium instruments, and comfortable learning environments for all students.",
     content: "After months of careful planning and construction...",
     date: "April 3, 2026",
     category: "Facilities",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "David Thompson",
-    readTime: "6 min read"
+    readTime: "6 min read",
   },
   {
     id: "music-theory-workshop",
     title: "Advanced Music Theory Workshop Series",
-    excerpt: "Join our new workshop series covering advanced harmony, counterpoint, and analysis. Perfect for students preparing for college auditions or competitions.",
+    excerpt:
+      "Join our new workshop series covering advanced Liszthoven, counterpoint, and analysis. Perfect for students preparing for college auditions or competitions.",
     content: "We're excited to introduce a comprehensive workshop series...",
     date: "March 28, 2026",
     category: "Education",
-    image: "https://images.unsplash.com/photo-1512733596533-7b00ccf8ebaf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
+    image:
+      "https://images.unsplash.com/photo-1512733596533-7b00ccf8ebaf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     author: "Sarah Mitchell",
-    readTime: "5 min read"
-  }
+    readTime: "5 min read",
+  },
 ];
 
-const categories = ["All", "Programs", "Achievements", "Faculty", "Events", "Education", "Facilities"];
+const categories = [
+  "All",
+  "Programs",
+  "Achievements",
+  "Faculty",
+  "Events",
+  "Education",
+  "Facilities",
+];
 
 export default function News() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("date");
 
   const filteredArticles = allArticles.filter(
-    article => selectedCategory === "All" || article.category === selectedCategory
+    (article) =>
+      selectedCategory === "All" || article.category === selectedCategory,
   );
 
   const sortedArticles = [...filteredArticles].sort((a, b) => {
@@ -142,9 +169,17 @@ export default function News() {
             <div className="inline-block mb-8 px-6 py-2.5 bg-gold/10 backdrop-blur-sm border border-gold/30 rounded-full text-gold text-sm tracking-wide">
               Stay Informed
             </div>
-            <h1 className="text-6xl md:text-8xl mb-6 tracking-tight" style={{ fontStyle: 'italic' }}>News & Articles</h1>
-            <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto leading-relaxed" style={{ fontStyle: 'normal' }}>
-              The latest updates from Harmony Academy
+            <h1
+              className="text-6xl md:text-8xl mb-6 tracking-tight"
+              style={{ fontStyle: "italic" }}
+            >
+              News & Articles
+            </h1>
+            <p
+              className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto leading-relaxed"
+              style={{ fontStyle: "normal" }}
+            >
+              The latest updates from Liszthoven Academy
             </p>
           </motion.div>
         </div>

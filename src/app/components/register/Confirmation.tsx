@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { CheckCircle, MapPin, Book, User, Mail, Phone, Calendar, Sparkles } from "lucide-react";
+import {
+  CheckCircle,
+  MapPin,
+  Book,
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  Sparkles,
+} from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface ConfirmationProps {
@@ -15,7 +24,7 @@ export default function Confirmation({ formData }: ConfirmationProps) {
     setIsSubmitting(true);
 
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setIsSubmitting(false);
     setIsSubmitted(true);
@@ -25,7 +34,7 @@ export default function Confirmation({ formData }: ConfirmationProps) {
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#D4AF37', '#F4E4B0', '#B8941F']
+      colors: ["#D4AF37", "#F4E4B0", "#B8941F"],
     });
   };
 
@@ -45,11 +54,15 @@ export default function Confirmation({ formData }: ConfirmationProps) {
           <CheckCircle className="w-12 h-12 text-primary" />
         </motion.div>
 
-        <h2 className="text-4xl md:text-5xl mb-4" style={{ fontStyle: 'italic' }}>
+        <h2
+          className="text-4xl md:text-5xl mb-4"
+          style={{ fontStyle: "italic" }}
+        >
           Registration Successful!
         </h2>
         <p className="text-lg text-muted-foreground mb-8">
-          Thank you for registering with Harmony Academy. We've sent a confirmation email with all the details.
+          Thank you for registering with Liszthoven Academy. We've sent a
+          confirmation email with all the details.
         </p>
 
         <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-gold/20 mb-8">
@@ -64,7 +77,8 @@ export default function Confirmation({ formData }: ConfirmationProps) {
             <div className="flex items-start gap-3">
               <Sparkles className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
               <div className="text-sm text-muted-foreground">
-                Your teacher will contact you within 24 hours to schedule your first lesson
+                Your teacher will contact you within 24 hours to schedule your
+                first lesson
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -98,7 +112,7 @@ export default function Confirmation({ formData }: ConfirmationProps) {
     <div className="max-w-4xl mx-auto">
       <div className="bg-card/50 backdrop-blur-sm rounded-xl p-8 border border-border space-y-8">
         <div className="text-center pb-6 border-b border-border">
-          <h3 className="text-2xl mb-2" style={{ fontStyle: 'italic' }}>
+          <h3 className="text-2xl mb-2" style={{ fontStyle: "italic" }}>
             Review Your Registration
           </h3>
           <p className="text-muted-foreground">
@@ -114,11 +128,15 @@ export default function Confirmation({ formData }: ConfirmationProps) {
               <h4 className="font-semibold">Selected Branch</h4>
             </div>
             <div className="bg-secondary/50 rounded-lg p-6">
-              <h5 className="font-semibold mb-2" style={{ fontStyle: 'italic' }}>
+              <h5
+                className="font-semibold mb-2"
+                style={{ fontStyle: "italic" }}
+              >
                 {formData.branch.name}
               </h5>
               <p className="text-sm text-muted-foreground mb-3">
-                {formData.branch.address}, {formData.branch.city}, {formData.branch.state}
+                {formData.branch.address}, {formData.branch.city},{" "}
+                {formData.branch.state}
               </p>
               <div className="flex flex-wrap gap-3 text-sm">
                 <div className="flex items-center gap-2 text-muted-foreground">
@@ -149,7 +167,10 @@ export default function Confirmation({ formData }: ConfirmationProps) {
                   className="w-24 h-24 rounded-lg object-cover"
                 />
                 <div className="flex-1">
-                  <h5 className="font-semibold mb-1" style={{ fontStyle: 'italic' }}>
+                  <h5
+                    className="font-semibold mb-1"
+                    style={{ fontStyle: "italic" }}
+                  >
                     {formData.lesson.title}
                   </h5>
                   <p className="text-sm text-muted-foreground mb-2">
@@ -187,11 +208,18 @@ export default function Confirmation({ formData }: ConfirmationProps) {
                   className="w-20 h-20 rounded-lg object-cover ring-2 ring-gold/20"
                 />
                 <div className="flex-1">
-                  <h5 className="font-semibold mb-1" style={{ fontStyle: 'italic' }}>
+                  <h5
+                    className="font-semibold mb-1"
+                    style={{ fontStyle: "italic" }}
+                  >
                     {formData.teacher.name}
                   </h5>
-                  <p className="text-sm text-gold mb-2">{formData.teacher.credentials}</p>
-                  <p className="text-sm text-muted-foreground">{formData.teacher.specialization}</p>
+                  <p className="text-sm text-gold mb-2">
+                    {formData.teacher.credentials}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {formData.teacher.specialization}
+                  </p>
                 </div>
               </div>
             </div>
@@ -208,53 +236,85 @@ export default function Confirmation({ formData }: ConfirmationProps) {
             <div className="bg-secondary/50 rounded-lg p-6 space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Full Name</div>
+                  <div className="text-xs text-muted-foreground mb-1">
+                    Full Name
+                  </div>
                   <div className="font-medium">{formData.biodata.fullName}</div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Email</div>
+                  <div className="text-xs text-muted-foreground mb-1">
+                    Email
+                  </div>
                   <div className="font-medium">{formData.biodata.email}</div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Phone</div>
+                  <div className="text-xs text-muted-foreground mb-1">
+                    Phone
+                  </div>
                   <div className="font-medium">{formData.biodata.phone}</div>
                 </div>
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Age</div>
-                  <div className="font-medium">{formData.biodata.age} years old</div>
+                  <div className="font-medium">
+                    {formData.biodata.age} years old
+                  </div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Experience Level</div>
-                  <div className="font-medium capitalize">{formData.biodata.experienceLevel}</div>
+                  <div className="text-xs text-muted-foreground mb-1">
+                    Experience Level
+                  </div>
+                  <div className="font-medium capitalize">
+                    {formData.biodata.experienceLevel}
+                  </div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Preferred Schedule</div>
-                  <div className="font-medium">{formData.biodata.preferredSchedule}</div>
+                  <div className="text-xs text-muted-foreground mb-1">
+                    Preferred Schedule
+                  </div>
+                  <div className="font-medium">
+                    {formData.biodata.preferredSchedule}
+                  </div>
                 </div>
               </div>
 
               {formData.biodata.notes && (
                 <div className="pt-3 border-t border-border">
-                  <div className="text-xs text-muted-foreground mb-1">Notes</div>
+                  <div className="text-xs text-muted-foreground mb-1">
+                    Notes
+                  </div>
                   <div className="text-sm">{formData.biodata.notes}</div>
                 </div>
               )}
 
               {formData.biodata.isChild && (
                 <div className="pt-3 border-t border-border">
-                  <div className="text-xs font-semibold text-gold mb-2">Guardian Information</div>
+                  <div className="text-xs font-semibold text-gold mb-2">
+                    Guardian Information
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <div className="text-xs text-muted-foreground mb-1">Name</div>
-                      <div className="text-sm font-medium">{formData.biodata.guardianName}</div>
+                      <div className="text-xs text-muted-foreground mb-1">
+                        Name
+                      </div>
+                      <div className="text-sm font-medium">
+                        {formData.biodata.guardianName}
+                      </div>
                     </div>
                     <div>
-                      <div className="text-xs text-muted-foreground mb-1">Phone</div>
-                      <div className="text-sm font-medium">{formData.biodata.guardianPhone}</div>
+                      <div className="text-xs text-muted-foreground mb-1">
+                        Phone
+                      </div>
+                      <div className="text-sm font-medium">
+                        {formData.biodata.guardianPhone}
+                      </div>
                     </div>
                     <div>
-                      <div className="text-xs text-muted-foreground mb-1">Email</div>
-                      <div className="text-sm font-medium">{formData.biodata.guardianEmail}</div>
+                      <div className="text-xs text-muted-foreground mb-1">
+                        Email
+                      </div>
+                      <div className="text-sm font-medium">
+                        {formData.biodata.guardianEmail}
+                      </div>
                     </div>
                   </div>
                 </div>

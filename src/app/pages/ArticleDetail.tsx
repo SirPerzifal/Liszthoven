@@ -1,5 +1,12 @@
 import { useParams, Link } from "react-router";
-import { Calendar, User, Clock, ArrowLeft, ArrowRight, Share2 } from "lucide-react";
+import {
+  Calendar,
+  User,
+  Clock,
+  ArrowLeft,
+  ArrowRight,
+  Share2,
+} from "lucide-react";
 import { motion } from "motion/react";
 
 const articleData: Record<string, any> = {
@@ -9,7 +16,8 @@ const articleData: Record<string, any> = {
     category: "Programs",
     author: "Emily Rodriguez",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     content: `
       <p>We're thrilled to announce our Summer Intensive Program, a transformative 6-week experience designed for serious music students who want to take their skills to the next level.</p>
 
@@ -38,7 +46,7 @@ const articleData: Record<string, any> = {
 
       <p>Registration opens on May 15. Space is limited to 40 students to ensure personalized attention. Don't miss this opportunity to accelerate your musical growth!</p>
     `,
-    relatedArticles: ["competition-winners", "new-instructor"]
+    relatedArticles: ["competition-winners", "new-instructor"],
   },
   "competition-winners": {
     title: "Students Win Regional Competition",
@@ -46,9 +54,10 @@ const articleData: Record<string, any> = {
     category: "Achievements",
     author: "Michael Chen",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     content: `
-      <p>In a stunning display of musical excellence, three Harmony Academy students took top honors at the Regional Music Competition last weekend, showcasing exceptional performances that left judges and audiences in awe.</p>
+      <p>In a stunning display of musical excellence, three Liszthoven Academy students took top honors at the Regional Music Competition last weekend, showcasing exceptional performances that left judges and audiences in awe.</p>
 
       <h2>First Place Winners</h2>
       <p>Sophia Chen, 16, won first place in the piano division with a breathtaking performance of Rachmaninoff's Piano Concerto No. 2. "Sophia's technical mastery combined with her emotional depth made for an unforgettable performance," said head judge Dr. Robert Williams.</p>
@@ -56,14 +65,14 @@ const articleData: Record<string, any> = {
       <p>In the strings division, Marcus Johnson, 15, took top honors with his interpretation of Sibelius' Violin Concerto. His impeccable intonation and passionate delivery earned him a standing ovation from the audience.</p>
 
       <h2>Excellence in Vocal Performance</h2>
-      <p>Emma Rodriguez, 17, secured first place in the vocal category with a stunning rendition of "Song to the Moon" from Dvořák's Rusalka. Her crystalline tone and dramatic interpretation showcased the exceptional vocal training she's received at Harmony Academy.</p>
+      <p>Emma Rodriguez, 17, secured first place in the vocal category with a stunning rendition of "Song to the Moon" from Dvořák's Rusalka. Her crystalline tone and dramatic interpretation showcased the exceptional vocal training she's received at Liszthoven Academy.</p>
 
       <h2>Preparation & Training</h2>
-      <p>All three students credit their success to the dedicated instruction and support they've received from Harmony Academy faculty. "The one-on-one attention and performance opportunities we get here are invaluable," said Sophia.</p>
+      <p>All three students credit their success to the dedicated instruction and support they've received from Liszthoven Academy faculty. "The one-on-one attention and performance opportunities we get here are invaluable," said Sophia.</p>
 
       <p>Congratulations to our winners! We're incredibly proud of their achievements and look forward to seeing them continue to excel.</p>
     `,
-    relatedArticles: ["summer-program", "practice-tips"]
+    relatedArticles: ["summer-program", "practice-tips"],
   },
   "new-instructor": {
     title: "Welcoming Renowned Violinist to Faculty",
@@ -71,12 +80,13 @@ const articleData: Record<string, any> = {
     category: "Faculty",
     author: "Sarah Mitchell",
     readTime: "3 min read",
-    image: "https://images.unsplash.com/photo-1566913485268-1287f67f87fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1566913485268-1287f67f87fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     content: `
-      <p>Harmony Academy is proud to welcome Maria Santos, an internationally acclaimed violinist, to our distinguished faculty beginning this fall.</p>
+      <p>Liszthoven Academy is proud to welcome Maria Santos, an internationally acclaimed violinist, to our distinguished faculty beginning this fall.</p>
 
       <h2>A Distinguished Career</h2>
-      <p>Maria brings over 25 years of performing and teaching experience to Harmony Academy. She has performed as a soloist with major orchestras worldwide, including the New York Philharmonic, London Symphony Orchestra, and Vienna Philharmonic.</p>
+      <p>Maria brings over 25 years of performing and teaching experience to Liszthoven Academy. She has performed as a soloist with major orchestras worldwide, including the New York Philharmonic, London Symphony Orchestra, and Vienna Philharmonic.</p>
 
       <p>Her discography includes critically acclaimed recordings of violin concertos by Brahms, Tchaikovsky, and Sibelius. She has won numerous awards, including the prestigious Paganini Competition and the Queen Elisabeth Competition.</p>
 
@@ -91,8 +101,8 @@ const articleData: Record<string, any> = {
 
       <p>We're honored to have Maria join our team and look forward to the invaluable expertise she'll bring to our students.</p>
     `,
-    relatedArticles: ["summer-program", "scholarship-announcement"]
-  }
+    relatedArticles: ["summer-program", "scholarship-announcement"],
+  },
 };
 
 export default function ArticleDetail() {
@@ -141,7 +151,9 @@ export default function ArticleDetail() {
             <div className="inline-block mb-4 px-4 py-2 bg-gold/20 border border-gold rounded-full text-gold text-sm">
               {article.category}
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">{article.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              {article.title}
+            </h1>
             <div className="flex flex-wrap gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-gold" />
@@ -206,7 +218,9 @@ export default function ArticleDetail() {
                       />
                     </div>
                     <div className="p-6">
-                      <div className="text-xs text-gold mb-2">{related.category}</div>
+                      <div className="text-xs text-gold mb-2">
+                        {related.category}
+                      </div>
                       <h3 className="font-semibold mb-2 group-hover:text-gold transition-colors">
                         {related.title}
                       </h3>

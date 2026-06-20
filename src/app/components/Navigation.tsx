@@ -6,39 +6,39 @@ import { motion, AnimatePresence } from "motion/react";
 const lessonsCategories = [
   {
     name: "Piano",
-    subcategories: ["Classical Piano", "Jazz Piano", "Contemporary Piano"]
+    subcategories: ["Classical Piano", "Jazz Piano", "Contemporary Piano"],
   },
   {
     name: "Guitar",
-    subcategories: ["Acoustic Guitar", "Electric Guitar", "Bass Guitar"]
+    subcategories: ["Acoustic Guitar", "Electric Guitar", "Bass Guitar"],
   },
   {
     name: "Vocals",
-    subcategories: ["Classical Voice", "Pop & Rock", "Jazz Vocals"]
+    subcategories: ["Classical Voice", "Pop & Rock", "Jazz Vocals"],
   },
   {
     name: "Strings",
-    subcategories: ["Violin", "Cello", "Viola"]
+    subcategories: ["Violin", "Cello", "Viola"],
   },
   {
     name: "Drums",
-    subcategories: ["Drum Set", "Percussion", "World Drums"]
-  }
+    subcategories: ["Drum Set", "Percussion", "World Drums"],
+  },
 ];
 
 const eventsCategories = [
   {
     name: "Concerts",
-    subcategories: ["Student Recitals", "Faculty Concerts", "Guest Artists"]
+    subcategories: ["Student Recitals", "Faculty Concerts", "Guest Artists"],
   },
   {
     name: "Workshops",
-    subcategories: ["Masterclasses", "Technique Workshops", "Music Theory"]
+    subcategories: ["Masterclasses", "Technique Workshops", "Music Theory"],
   },
   {
     name: "Competitions",
-    subcategories: ["Solo Competitions", "Ensemble Competitions"]
-  }
+    subcategories: ["Solo Competitions", "Ensemble Competitions"],
+  },
 ];
 
 export default function Navigation() {
@@ -47,7 +47,9 @@ export default function Navigation() {
   const location = useLocation();
 
   const isActive = (path: string) => {
-    return location.pathname === path || location.pathname.startsWith(path + '/');
+    return (
+      location.pathname === path || location.pathname.startsWith(path + "/")
+    );
   };
 
   return (
@@ -60,7 +62,9 @@ export default function Navigation() {
               <Music className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <div className="text-xl font-semibold tracking-tight">Harmony Academy</div>
+              <div className="text-xl font-semibold tracking-tight">
+                Liszthoven Academy
+              </div>
               <div className="text-xs text-gold-light">Music School</div>
             </div>
           </Link>
@@ -70,7 +74,7 @@ export default function Navigation() {
             <Link
               to="/about"
               className={`text-sm transition-colors hover:text-gold ${
-                isActive('/about') ? 'text-gold' : ''
+                isActive("/about") ? "text-gold" : ""
               }`}
             >
               About
@@ -79,18 +83,20 @@ export default function Navigation() {
             {/* Lessons Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setHoveredMenu('lessons')}
+              onMouseEnter={() => setHoveredMenu("lessons")}
               onMouseLeave={() => setHoveredMenu(null)}
             >
-              <button className={`flex items-center gap-1 text-sm transition-colors hover:text-gold ${
-                isActive('/lessons') ? 'text-gold' : ''
-              }`}>
+              <button
+                className={`flex items-center gap-1 text-sm transition-colors hover:text-gold ${
+                  isActive("/lessons") ? "text-gold" : ""
+                }`}
+              >
                 Lessons
                 <ChevronDown className="w-4 h-4" />
               </button>
 
               <AnimatePresence>
-                {hoveredMenu === 'lessons' && (
+                {hoveredMenu === "lessons" && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -112,7 +118,7 @@ export default function Navigation() {
                               {category.subcategories.map((sub) => (
                                 <li key={sub}>
                                   <Link
-                                    to={`/lessons/${category.name.toLowerCase()}/${sub.toLowerCase().replace(/\s+/g, '-')}`}
+                                    to={`/lessons/${category.name.toLowerCase()}/${sub.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="text-sm text-muted-foreground hover:text-gold transition-colors block py-1"
                                   >
                                     {sub}
@@ -132,18 +138,20 @@ export default function Navigation() {
             {/* Events Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setHoveredMenu('events')}
+              onMouseEnter={() => setHoveredMenu("events")}
               onMouseLeave={() => setHoveredMenu(null)}
             >
-              <button className={`flex items-center gap-1 text-sm transition-colors hover:text-gold ${
-                isActive('/events') ? 'text-gold' : ''
-              }`}>
+              <button
+                className={`flex items-center gap-1 text-sm transition-colors hover:text-gold ${
+                  isActive("/events") ? "text-gold" : ""
+                }`}
+              >
                 Events
                 <ChevronDown className="w-4 h-4" />
               </button>
 
               <AnimatePresence>
-                {hoveredMenu === 'events' && (
+                {hoveredMenu === "events" && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -165,7 +173,7 @@ export default function Navigation() {
                               {category.subcategories.map((sub) => (
                                 <li key={sub}>
                                   <Link
-                                    to={`/events/${category.name.toLowerCase()}/${sub.toLowerCase().replace(/\s+/g, '-')}`}
+                                    to={`/events/${category.name.toLowerCase()}/${sub.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="text-sm text-muted-foreground hover:text-gold transition-colors block py-1"
                                   >
                                     {sub}
@@ -185,7 +193,7 @@ export default function Navigation() {
             <Link
               to="/store"
               className={`text-sm transition-colors hover:text-gold ${
-                isActive('/store') ? 'text-gold' : ''
+                isActive("/store") ? "text-gold" : ""
               }`}
             >
               Store
@@ -194,7 +202,7 @@ export default function Navigation() {
             <Link
               to="/news"
               className={`text-sm transition-colors hover:text-gold ${
-                isActive('/news') ? 'text-gold' : ''
+                isActive("/news") ? "text-gold" : ""
               }`}
             >
               News
@@ -203,7 +211,7 @@ export default function Navigation() {
             <Link
               to="/contact"
               className={`text-sm transition-colors hover:text-gold ${
-                isActive('/contact') ? 'text-gold' : ''
+                isActive("/contact") ? "text-gold" : ""
               }`}
             >
               Contact
@@ -222,7 +230,11 @@ export default function Navigation() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden p-2"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
         </div>
       </div>
