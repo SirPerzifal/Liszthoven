@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Mail, Lock, ArrowRight, Music } from "lucide-react";
-import { Link } from "react-router";
+import { Mail, Lock, ArrowRight, Music, AlertCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router";
 import FloatingNodes from "../components/FloatingNodes";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
 
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [authError, setAuthError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -26,8 +31,7 @@ export default function Login() {
   };
 
   const validate = () => {
-    const newErrors: any = {};
-
+    const newErrors: Record<string, string> = {};
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = "Email is invalid";
@@ -41,9 +45,12 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Login:", formData);
-      // Handle login logic here
+    if (!validate()) return;
+    const result = login(formData.email, formData.password);
+    if (result.success) {
+      navigate(result.redirect || "/admin/dashboard");
+    } else {
+      setAuthError(result.error || "Login failed");
     }
   };
 
@@ -60,11 +67,9 @@ export default function Login() {
         <FloatingNodes />
       </div>
 
-      {/* Ambient glows */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
 
-      {/* Content */}
       <div className="relative z-10 w-full max-w-md px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -82,10 +87,14 @@ export default function Login() {
             </div>
           </Link>
 
+<<<<<<< HEAD
           <h1
             className="text-4xl md:text-5xl mb-3 tracking-tight"
             style={{ fontStyle: "italic" }}
           >
+=======
+          <h1 className="text-4xl md:text-5xl mb-3 tracking-tight" style={{ fontStyle: "italic" }}>
+>>>>>>> e1b89ca37f6a4891588ea159bdfce7cb24b5a4d6
             Welcome Back
           </h1>
           <p className="text-white/60">Sign in to access your account</p>
@@ -97,6 +106,25 @@ export default function Login() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl"
         >
+          {/* Demo hint */}
+          <div className="mb-6 p-3 rounded-xl bg-gold/10 border border-gold/20 flex items-start gap-3">
+            <AlertCircle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-gold/80 space-y-1">
+              <span className="font-semibold text-gold block">Demo credentials:</span>
+              <span className="block">Parent: parent@example.com / parent123</span>
+              <span className="block">Student: student@example.com / student123</span>
+              <span className="block">Teacher: teacher@example.com / teacher123</span>
+              <span className="block">Admin: admin@harmonyacademy.com / admin123</span>
+            </div>
+          </div>
+
+          {authError && (
+            <div className="mb-4 p-3 rounded-xl bg-destructive/10 border border-destructive/20 flex items-center gap-2 text-sm text-destructive">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              {authError}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium mb-2 flex items-center gap-2">
@@ -115,9 +143,7 @@ export default function Login() {
                 } focus:outline-none`}
                 placeholder="your@email.com"
               />
-              {errors.email && (
-                <p className="text-xs text-destructive mt-1">{errors.email}</p>
-              )}
+              {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
             </div>
 
             <div>
@@ -137,11 +163,15 @@ export default function Login() {
                 } focus:outline-none`}
                 placeholder="••••••••"
               />
+<<<<<<< HEAD
               {errors.password && (
                 <p className="text-xs text-destructive mt-1">
                   {errors.password}
                 </p>
               )}
+=======
+              {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
+>>>>>>> e1b89ca37f6a4891588ea159bdfce7cb24b5a4d6
             </div>
 
             <div className="flex items-center justify-between">

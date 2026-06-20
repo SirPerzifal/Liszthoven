@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router";
 import { useState } from "react";
-import { ChevronDown, Menu, X, Music } from "lucide-react";
+import { ChevronDown, Menu, X, Music, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { useCart } from "../context/CartContext";
 
 const lessonsCategories = [
   {
@@ -45,6 +46,7 @@ export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
   const location = useLocation();
+  const { totalItems, openCart } = useCart();
 
   const isActive = (path: string) => {
     return (
@@ -216,6 +218,18 @@ export default function Navigation() {
             >
               Contact
             </Link>
+
+            <button
+              onClick={openCart}
+              className="relative p-2 text-primary-foreground/70 hover:text-gold transition-colors"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-gold text-primary text-xs font-bold rounded-full flex items-center justify-center">
+                  {totalItems > 9 ? "9+" : totalItems}
+                </span>
+              )}
+            </button>
 
             <Link
               to="/login"
