@@ -54,7 +54,9 @@ export default function AdminLayout() {
           </div>
           {(sidebarOpen || mobileSidebarOpen) && (
             <div>
-              <div className="text-sm font-semibold text-white">Harmony Academy</div>
+              <div className="text-sm font-semibold text-white">
+                Liszthoven Academy
+              </div>
               <div className="text-xs text-gold/70">Admin Panel</div>
             </div>
           )}
@@ -114,9 +116,10 @@ export default function AdminLayout() {
     </div>
   );
 
-  const currentPage = [...navItems, { path: "/admin/profile", label: "Profile" }].find(
-    (item) => item.path === location.pathname
-  )?.label || "Dashboard";
+  const currentPage =
+    [...navItems, { path: "/admin/profile", label: "Profile" }].find(
+      (item) => item.path === location.pathname,
+    )?.label || "Dashboard";
 
   return (
     <div className="dark flex h-screen bg-background text-foreground overflow-hidden">
@@ -180,7 +183,11 @@ export default function AdminLayout() {
               {user?.name}
             </span>
             <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-gold">
-              <img src={user?.avatar} alt={user?.name} className="w-full h-full object-cover" />
+              <img
+                src={user?.avatar}
+                alt={user?.name}
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </header>

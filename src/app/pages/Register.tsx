@@ -1,6 +1,18 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight, ArrowLeft, CheckCircle, Music, Mail, Lock, User, Phone, Eye, EyeOff, RefreshCw } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle,
+  Music,
+  Mail,
+  Lock,
+  User,
+  Phone,
+  Eye,
+  EyeOff,
+  RefreshCw,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import FloatingNodes from "../components/FloatingNodes";
 
@@ -36,11 +48,14 @@ export default function Register() {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = "Full name is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
-    else if (!/^\+?[\d\s\-()]{8,}$/.test(formData.phone)) newErrors.phone = "Enter a valid phone number";
+    else if (!/^\+?[\d\s\-()]{8,}$/.test(formData.phone))
+      newErrors.phone = "Enter a valid phone number";
     if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Enter a valid email address";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Enter a valid email address";
     if (!formData.password) newErrors.password = "Password is required";
-    else if (formData.password.length < 8) newErrors.password = "Password must be at least 8 characters";
+    else if (formData.password.length < 8)
+      newErrors.password = "Password must be at least 8 characters";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -96,17 +111,24 @@ export default function Register() {
 
       <div className="relative z-10 w-full max-w-md">
         {/* Logo */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
           <Link to="/" className="inline-flex items-center gap-3 mb-6 group">
             <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center">
               <Music className="w-7 h-7 text-primary" />
             </div>
             <div className="text-left">
-              <div className="text-xl font-semibold">Harmony Academy</div>
+              <div className="text-xl font-semibold">Liszthoven Academy</div>
               <div className="text-xs text-gold-light">Music School</div>
             </div>
           </Link>
-          <h1 className="text-4xl md:text-5xl mb-3 tracking-tight" style={{ fontStyle: "italic" }}>
+          <h1
+            className="text-4xl md:text-5xl mb-3 tracking-tight"
+            style={{ fontStyle: "italic" }}
+          >
             {steps[currentStep - 1].title}
           </h1>
         </motion.div>
@@ -115,15 +137,31 @@ export default function Register() {
         <div className="flex items-center justify-center gap-2 mb-8">
           {steps.map((step, i) => (
             <div key={step.id} className="flex items-center gap-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 text-xs font-semibold transition-all ${
-                currentStep > step.id ? "bg-gold border-gold text-black" :
-                currentStep === step.id ? "border-gold text-gold" :
-                "border-white/20 text-white/40"
-              }`}>
-                {currentStep > step.id ? <CheckCircle className="w-4 h-4" /> : step.id}
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center border-2 text-xs font-semibold transition-all ${
+                  currentStep > step.id
+                    ? "bg-gold border-gold text-black"
+                    : currentStep === step.id
+                      ? "border-gold text-gold"
+                      : "border-white/20 text-white/40"
+                }`}
+              >
+                {currentStep > step.id ? (
+                  <CheckCircle className="w-4 h-4" />
+                ) : (
+                  step.id
+                )}
               </div>
-              <span className={`text-xs hidden sm:block ${currentStep >= step.id ? "text-white/80" : "text-white/30"}`}>{step.name}</span>
-              {i < steps.length - 1 && <div className={`w-8 h-px ${currentStep > step.id ? "bg-gold" : "bg-white/20"}`} />}
+              <span
+                className={`text-xs hidden sm:block ${currentStep >= step.id ? "text-white/80" : "text-white/30"}`}
+              >
+                {step.name}
+              </span>
+              {i < steps.length - 1 && (
+                <div
+                  className={`w-8 h-px ${currentStep > step.id ? "bg-gold" : "bg-white/20"}`}
+                />
+              )}
             </div>
           ))}
         </div>
@@ -139,45 +177,114 @@ export default function Register() {
             {/* Step 1 — Account info */}
             {currentStep === 1 && (
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
-                <p className="text-sm text-white/60 mb-6">Fill in your details to create a parent account</p>
+                <p className="text-sm text-white/60 mb-6">
+                  Fill in your details to create a parent account
+                </p>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2 flex items-center gap-2"><User className="w-4 h-4 text-gold" />Full Name</label>
-                    <input name="name" type="text" value={formData.name} onChange={handleChange} placeholder="Your full name"
-                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.name ? "border-red-500" : "border-white/10 focus:border-gold"}`} />
-                    {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
+                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                      <User className="w-4 h-4 text-gold" />
+                      Full Name
+                    </label>
+                    <input
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Your full name"
+                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.name ? "border-red-500" : "border-white/10 focus:border-gold"}`}
+                    />
+                    {errors.name && (
+                      <p className="text-xs text-red-400 mt-1">{errors.name}</p>
+                    )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2 flex items-center gap-2"><Phone className="w-4 h-4 text-gold" />Mobile Number</label>
-                    <input name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 000-0000"
-                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.phone ? "border-red-500" : "border-white/10 focus:border-gold"}`} />
-                    {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone}</p>}
+                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-gold" />
+                      Mobile Number
+                    </label>
+                    <input
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+1 (555) 000-0000"
+                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.phone ? "border-red-500" : "border-white/10 focus:border-gold"}`}
+                    />
+                    {errors.phone && (
+                      <p className="text-xs text-red-400 mt-1">
+                        {errors.phone}
+                      </p>
+                    )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2 flex items-center gap-2"><Mail className="w-4 h-4 text-gold" />Email Address</label>
-                    <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="your@email.com"
-                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.email ? "border-red-500" : "border-white/10 focus:border-gold"}`} />
-                    {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
+                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-gold" />
+                      Email Address
+                    </label>
+                    <input
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="your@email.com"
+                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.email ? "border-red-500" : "border-white/10 focus:border-gold"}`}
+                    />
+                    {errors.email && (
+                      <p className="text-xs text-red-400 mt-1">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2 flex items-center gap-2"><Lock className="w-4 h-4 text-gold" />Password</label>
+                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                      <Lock className="w-4 h-4 text-gold" />
+                      Password
+                    </label>
                     <div className="relative">
-                      <input name="password" type={showPassword ? "text" : "password"} value={formData.password} onChange={handleChange} placeholder="Min. 8 characters"
-                        className={`w-full px-4 py-3 pr-11 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.password ? "border-red-500" : "border-white/10 focus:border-gold"}`} />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors">
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      <input
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Min. 8 characters"
+                        className={`w-full px-4 py-3 pr-11 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.password ? "border-red-500" : "border-white/10 focus:border-gold"}`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
-                    {errors.password && <p className="text-xs text-red-400 mt-1">{errors.password}</p>}
+                    {errors.password && (
+                      <p className="text-xs text-red-400 mt-1">
+                        {errors.password}
+                      </p>
+                    )}
                   </div>
                 </div>
-                <button onClick={() => { if (validate()) setCurrentStep(2); }}
-                  className="w-full mt-6 bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl">
+                <button
+                  onClick={() => {
+                    if (validate()) setCurrentStep(2);
+                  }}
+                  className="w-full mt-6 bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl"
+                >
                   Continue <ArrowRight className="w-5 h-5" />
                 </button>
                 <p className="text-center text-sm text-white/50 mt-4">
                   Already have an account?{" "}
-                  <Link to="/login" className="text-gold hover:text-gold-light transition-colors font-medium">Sign In</Link>
+                  <Link
+                    to="/login"
+                    className="text-gold hover:text-gold-light transition-colors font-medium"
+                  >
+                    Sign In
+                  </Link>
                 </p>
               </div>
             )}
@@ -188,8 +295,12 @@ export default function Register() {
                 <div className="w-14 h-14 bg-gold/10 rounded-full flex items-center justify-center border border-gold/20 mx-auto mb-4">
                   <Mail className="w-6 h-6 text-gold" />
                 </div>
-                <p className="text-sm text-white/60 mb-1">We sent a verification code to</p>
-                <p className="font-medium text-gold mb-6">{formData.email || "your email"}</p>
+                <p className="text-sm text-white/60 mb-1">
+                  We sent a verification code to
+                </p>
+                <p className="font-medium text-gold mb-6">
+                  {formData.email || "your email"}
+                </p>
 
                 <div className="flex gap-2 justify-center mb-2">
                   {otp.map((digit, i) => (
@@ -207,20 +318,35 @@ export default function Register() {
                   ))}
                 </div>
 
-                {otpError && <p className="text-xs text-red-400 mb-4">{otpError}</p>}
-                <p className="text-xs text-white/40 mb-6">Demo code: <span className="text-gold font-mono">123456</span></p>
+                {otpError && (
+                  <p className="text-xs text-red-400 mb-4">{otpError}</p>
+                )}
+                <p className="text-xs text-white/40 mb-6">
+                  Demo code: <span className="text-gold font-mono">123456</span>
+                </p>
 
-                <button onClick={handleVerify}
-                  className="w-full bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl mb-4">
+                <button
+                  onClick={handleVerify}
+                  className="w-full bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl mb-4"
+                >
                   Verify Email <ArrowRight className="w-5 h-5" />
                 </button>
 
                 <div className="flex items-center justify-between">
-                  <button onClick={() => setCurrentStep(1)} className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors">
-                    <ArrowLeft className="w-4 h-4" />Back
+                  <button
+                    onClick={() => setCurrentStep(1)}
+                    className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back
                   </button>
-                  <button onClick={handleResend} className={`flex items-center gap-1.5 text-sm transition-colors ${resent ? "text-green-400" : "text-white/50 hover:text-gold"}`}>
-                    <RefreshCw className={`w-4 h-4 ${resent ? "animate-spin" : ""}`} />
+                  <button
+                    onClick={handleResend}
+                    className={`flex items-center gap-1.5 text-sm transition-colors ${resent ? "text-green-400" : "text-white/50 hover:text-gold"}`}
+                  >
+                    <RefreshCw
+                      className={`w-4 h-4 ${resent ? "animate-spin" : ""}`}
+                    />
                     {resent ? "Code sent!" : "Resend code"}
                   </button>
                 </div>
@@ -230,13 +356,27 @@ export default function Register() {
             {/* Step 3 — Success */}
             {currentStep === 3 && (
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl text-center">
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200, damping: 12 }}
-                  className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center border-2 border-green-500/40 mx-auto mb-5">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 12 }}
+                  className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center border-2 border-green-500/40 mx-auto mb-5"
+                >
                   <CheckCircle className="w-10 h-10 text-green-400" />
                 </motion.div>
-                <h3 className="text-2xl font-semibold mb-2" style={{ fontStyle: "italic" }}>Welcome, {formData.name.split(" ")[0]}!</h3>
-                <p className="text-sm text-white/60 mb-2">Your parent account has been created successfully.</p>
-                <p className="text-xs text-white/40 mb-6">You can now enroll your children, track attendance, and manage your family's music education.</p>
+                <h3
+                  className="text-2xl font-semibold mb-2"
+                  style={{ fontStyle: "italic" }}
+                >
+                  Welcome, {formData.name.split(" ")[0]}!
+                </h3>
+                <p className="text-sm text-white/60 mb-2">
+                  Your parent account has been created successfully.
+                </p>
+                <p className="text-xs text-white/40 mb-6">
+                  You can now enroll your children, track attendance, and manage
+                  your family's music education.
+                </p>
 
                 <div className="bg-white/5 rounded-xl p-4 mb-6 text-left space-y-2">
                   <div className="flex justify-between text-sm">
@@ -245,7 +385,9 @@ export default function Register() {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-white/50">Email</span>
-                    <span className="font-medium text-gold">{formData.email}</span>
+                    <span className="font-medium text-gold">
+                      {formData.email}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-white/50">Phone</span>
@@ -257,8 +399,10 @@ export default function Register() {
                   </div>
                 </div>
 
-                <button onClick={() => navigate("/portal/parent/dashboard")}
-                  className="w-full bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl">
+                <button
+                  onClick={() => navigate("/portal/parent/dashboard")}
+                  className="w-full bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl"
+                >
                   Go to Dashboard <ArrowRight className="w-5 h-5" />
                 </button>
               </div>

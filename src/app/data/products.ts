@@ -39,7 +39,7 @@ export const allProducts: Product[] = [
       "https://images.unsplash.com/photo-1558098329-a11cff621064?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800",
     ],
     inStock: true,
-    brand: "Harmony Pro",
+    brand: "Liszthoven Pro",
     sku: "GT-001-PA",
     description: "Experience the rich, warm tones of our Premium Acoustic Guitar. Handcrafted with a solid Sitka spruce top and rosewood back and sides, this guitar delivers exceptional resonance and projection. Perfect for both advancing students and professional musicians seeking studio-quality sound.",
     specifications: {

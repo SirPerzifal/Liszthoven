@@ -119,7 +119,7 @@ export default function Login() {
                 Teacher: teacher@example.com / teacher123
               </span>
               <span className="block">
-                Admin: admin@harmonyacademy.com / admin123
+                Admin: admin@liszthovenacademy.com / admin123
               </span>
             </div>
           </div>

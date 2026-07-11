@@ -11,7 +11,7 @@ const children = [
 
 const branches = [
   { id: 1, name: "Downtown Branch", address: "123 Music Ave, Downtown", image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=300&q=60" },
-  { id: 2, name: "Westside Branch", address: "456 Harmony Blvd, Westside", image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&q=60" },
+  { id: 2, name: "Westside Branch", address: "456 Liszthoven Blvd, Westside", image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&q=60" },
   { id: 3, name: "Northside Branch", address: "789 Melody Lane, Northside", image: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=300&q=60" },
   { id: 4, name: "Eastside Branch", address: "321 Rhythm Road, Eastside", image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&q=60" },
 ];
@@ -100,7 +100,7 @@ export default function ParentEnrollment() {
     <div className="space-y-6 max-w-3xl">
       <div>
         <h2 className="text-xl mb-1" style={{ fontStyle: "italic" }}>New Enrollment</h2>
-        <p className="text-sm text-muted-foreground">Enroll your child in a music program at Harmony Academy</p>
+        <p className="text-sm text-muted-foreground">Enroll your child in a music program at Liszthoven Academy</p>
       </div>
 
       {/* Progress Steps */}

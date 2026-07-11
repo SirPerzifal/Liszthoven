@@ -33,4 +33,8 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
+
+  optimizeDeps: {
+    exclude: ['motion', 'react-dnd', 'react-dnd-html5-backend'],
+  },
 })
