@@ -18,39 +18,44 @@ interface PortalLayoutProps {
 }
 
 const roleLabels: Record<UserRole, string> = {
-  admin: "Admin Panel",
   parent: "Parent Portal",
   student: "Student Portal",
   teacher: "Teacher Portal",
 };
 
 const roleColors: Record<UserRole, string> = {
-  admin: "bg-gold text-black",
   parent: "bg-blue-500 text-white",
   student: "bg-purple-500 text-white",
   teacher: "bg-emerald-500 text-white",
 };
 
 const roleDotColors: Record<UserRole, string> = {
-  admin: "bg-gold",
   parent: "bg-blue-400",
   student: "bg-purple-400",
   teacher: "bg-emerald-400",
 };
 
 export default function PortalLayout({ role, navItems }: PortalLayoutProps) {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, loading } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-primary flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-gold border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   if (!isAuthenticated || user?.role !== role) {
     return <Navigate to="/login" replace />;
   }
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate("/login");
   };
 

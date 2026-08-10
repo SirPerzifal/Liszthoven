@@ -4,13 +4,13 @@ import { User, Mail, Phone, Save, Lock, Eye, EyeOff, CheckCircle2, Music } from 
 import { useAuth } from "../../../context/AuthContext";
 
 export default function TeacherProfile() {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, changePassword } = useAuth();
 
   const [profileData, setProfileData] = useState({
     name: user?.name || "",
     email: user?.email || "",
     phone: user?.phone || "",
-    bio: "Classical and contemporary guitar instructor with 10+ years of teaching experience. Specializing in beginner to advanced students, with expertise in fingerstyle, classical, and rock techniques.",
+    bio: user?.bio || "Classical and contemporary guitar instructor with 10+ years of teaching experience. Specializing in beginner to advanced students, with expertise in fingerstyle, classical, and rock techniques.",
   });
 
   const [passwordData, setPasswordData] = useState({ current: "", newPass: "", confirm: "" });
@@ -25,14 +25,20 @@ export default function TeacherProfile() {
     setTimeout(() => setProfileSaved(false), 2500);
   };
 
-  const handlePasswordSave = () => {
+  const handlePasswordSave = async () => {
     setPasswordError("");
-    if (passwordData.current !== "teacher123") { setPasswordError("Current password is incorrect"); return; }
+    if (!passwordData.current) { setPasswordError("Current password is required"); return; }
     if (passwordData.newPass.length < 6) { setPasswordError("New password must be at least 6 characters"); return; }
     if (passwordData.newPass !== passwordData.confirm) { setPasswordError("Passwords do not match"); return; }
-    setPasswordSaved(true);
-    setPasswordData({ current: "", newPass: "", confirm: "" });
-    setTimeout(() => setPasswordSaved(false), 2500);
+
+    const res = await changePassword(passwordData.current, passwordData.newPass);
+    if (res.success) {
+      setPasswordSaved(true);
+      setPasswordData({ current: "", newPass: "", confirm: "" });
+      setTimeout(() => setPasswordSaved(false), 2500);
+    } else {
+      setPasswordError(res.error || "Failed to update password");
+    }
   };
 
   return (

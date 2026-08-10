@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Edit2, X, Archive, Baby, Music2, Calendar } from "lucide-react";
+import { Plus, Edit2, X, Archive, Baby, Music2, Calendar, Loader2, CreditCard } from "lucide-react";
+import { odooCall } from "../../../context/AuthContext";
 
 interface Child {
   id: number;
@@ -14,36 +15,12 @@ interface Child {
   enrolledPrograms: string[];
 }
 
-const initialChildren: Child[] = [
-  {
-    id: 1,
-    name: "Emily Johnson",
-    dob: "2014-03-12",
-    gender: "Female",
-    school: "Riverside Elementary",
-    notes: "Loves classical music, practices 30 min daily.",
-    avatar: "EJ",
-    status: "active",
-    enrolledPrograms: ["Piano — Beginner"],
-  },
-  {
-    id: 2,
-    name: "Lucas Johnson",
-    dob: "2017-07-25",
-    gender: "Male",
-    school: "Riverside Elementary",
-    notes: "Energetic and creative, loves rhythm-based activities.",
-    avatar: "LJ",
-    status: "active",
-    enrolledPrograms: ["Drums — Beginner"],
-  },
-];
-
 const emptyForm = {
-  name: "", dob: "", gender: "Female", school: "", notes: "",
+  name: "", dob: "", gender: "Female", school: "", phone: "", level_id: "", notes: "",
 };
 
 function getAge(dob: string) {
+  if (!dob) return 0;
   const birthDate = new Date(dob);
   const today = new Date();
   let age = today.getFullYear() - birthDate.getFullYear();
@@ -53,36 +30,149 @@ function getAge(dob: string) {
 }
 
 export default function ParentChildren() {
-  const [children, setChildren] = useState<Child[]>(initialChildren);
+  const [children, setChildren] = useState<Child[]>([]);
+  const [ranks, setRanks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingChild, setEditingChild] = useState<Child | null>(null);
   const [formData, setFormData] = useState(emptyForm);
 
-  const openAdd = () => { setEditingChild(null); setFormData(emptyForm); setShowModal(true); };
+  const [selectedChildForDeposit, setSelectedChildForDeposit] = useState<Child | null>(null);
+  const [childDeposits, setChildDeposits] = useState<any[]>([]);
+  const [loadingDeposits, setLoadingDeposits] = useState(false);
+  const [showDepositModal, setShowDepositModal] = useState(false);
+
+  const viewDepositDetails = async (child: Child) => {
+    setSelectedChildForDeposit(child);
+    setShowDepositModal(true);
+    setChildDeposits([]);
+    try {
+      setLoadingDeposits(true);
+      const res = await odooCall("/liszthoven_custom/parent/child/deposits", {
+        child_id: child.id
+      });
+      if (res && res.success) {
+        setChildDeposits(res.deposits || []);
+      }
+    } catch (err) {
+      console.error("Failed to load child deposits", err);
+    } finally {
+      setLoadingDeposits(false);
+    }
+  };
+
+  const fetchChildren = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const res = await odooCall("/liszthoven_custom/parent/children");
+      if (res.success) {
+        setChildren(res.children);
+        if (res.ranks) {
+          setRanks(res.ranks);
+        }
+      } else {
+        setError(res.error || "Failed to load children.");
+      }
+    } catch (err: any) {
+      setError(err.message || "An error occurred while fetching children.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchChildren();
+  }, []);
+
+  const openAdd = () => { 
+    setEditingChild(null); 
+    setFormData(emptyForm); 
+    setShowModal(true); 
+  };
+  
   const openEdit = (child: Child) => {
     setEditingChild(child);
-    setFormData({ name: child.name, dob: child.dob, gender: child.gender, school: child.school, notes: child.notes });
+    setFormData({ 
+      name: child.name, 
+      dob: child.dob, 
+      gender: child.gender, 
+      school: child.school, 
+      phone: (child as any).phone || "",
+      level_id: (child as any).level_id ? String((child as any).level_id) : "",
+      notes: child.notes 
+    });
     setShowModal(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.name) return;
-    const avatar = formData.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
-    if (editingChild) {
-      setChildren((prev) => prev.map((c) => c.id === editingChild.id ? { ...c, ...formData, avatar } : c));
-    } else {
-      const id = Math.max(...children.map((c) => c.id), 0) + 1;
-      setChildren((prev) => [...prev, { ...formData, id, avatar, status: "active", enrolledPrograms: [] }]);
+    try {
+      setLoading(true);
+      const res = await odooCall("/liszthoven_custom/parent/children/save", {
+        child_id: editingChild ? editingChild.id : undefined,
+        name: formData.name,
+        dob: formData.dob || undefined,
+        gender: formData.gender,
+        school: formData.school || undefined,
+        phone: formData.phone || undefined,
+        level_id: formData.level_id || undefined,
+        notes: formData.notes || undefined,
+      });
+      if (res.success) {
+        await fetchChildren();
+        setShowModal(false);
+      } else {
+        alert(res.error || "Failed to save child details.");
+      }
+    } catch (err: any) {
+      alert(err.message || "An error occurred while saving.");
+    } finally {
+      setLoading(false);
     }
-    setShowModal(false);
   };
 
-  const toggleArchive = (id: number) => {
-    setChildren((prev) => prev.map((c) => c.id === id ? { ...c, status: c.status === "active" ? "archived" : "active" } : c));
+  const toggleArchive = async (id: number) => {
+    try {
+      setLoading(true);
+      const res = await odooCall("/liszthoven_custom/parent/children/archive", {
+        child_id: id,
+      });
+      if (res.success) {
+        await fetchChildren();
+      } else {
+        alert(res.error || "Failed to toggle archive status.");
+      }
+    } catch (err: any) {
+      alert(err.message || "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const active = children.filter((c) => c.status === "active");
   const archived = children.filter((c) => c.status === "archived");
+
+  if (loading && children.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+        <Loader2 className="w-8 h-8 text-gold animate-spin" />
+        <p className="text-sm text-muted-foreground">Loading your children profiles...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl text-center space-y-3">
+        <p className="text-sm">{error}</p>
+        <button onClick={fetchChildren} className="px-4 py-2 bg-red-500 text-white rounded-lg text-xs font-semibold hover:bg-red-600 transition-colors">
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -114,7 +204,7 @@ export default function ParentChildren() {
                 <div>
                   <h3 className="font-semibold text-base">{child.name}</h3>
                   <p className="text-xs text-muted-foreground">
-                    {child.gender} · {getAge(child.dob)} years old
+                    {child.gender} · {getAge(child.dob)} years old{(child as any).level_name ? ` · ${(child as any).level_name}` : ""}
                   </p>
                   {child.school && (
                     <p className="text-xs text-muted-foreground mt-0.5">{child.school}</p>
@@ -131,15 +221,29 @@ export default function ParentChildren() {
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">
-                  DOB: {new Date(child.dob).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+             <div className="space-y-3">
+              {/* Deposit Credit Left Balance Display */}
+              <button
+                onClick={() => viewDepositDetails(child)}
+                className="w-full flex items-center justify-between bg-gold/5 border border-gold/15 p-2 rounded-lg hover:bg-gold/10 transition-colors text-left"
+              >
+                <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                  <CreditCard className="w-3.5 h-3.5 text-gold" />
+                  Deposit Credit Left
                 </span>
-              </div>
+                <span className="text-xs font-bold text-gold hover:underline">{(child as any).deposit_credit ?? 0} sessions</span>
+              </button>
 
-              {child.enrolledPrograms.length > 0 && (
+              {child.dob && (
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">
+                    DOB: {new Date(child.dob).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                  </span>
+                </div>
+              )}
+
+              {child.enrolledPrograms && child.enrolledPrograms.length > 0 && (
                 <div>
                   <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1.5">
                     <Music2 className="w-3.5 h-3.5" />
@@ -230,6 +334,7 @@ export default function ParentChildren() {
                   {[
                     { key: "name", label: "Full Name", type: "text" },
                     { key: "dob", label: "Date of Birth", type: "date" },
+                    { key: "phone", label: "Phone (Optional)", type: "tel" },
                     { key: "school", label: "School (Optional)", type: "text" },
                   ].map(({ key, label, type }) => (
                     <div key={key}>
@@ -249,6 +354,24 @@ export default function ParentChildren() {
                     </div>
                   </div>
 
+                  {ranks.length > 0 && (
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">Academic Level (Optional)</label>
+                      <select
+                        value={formData.level_id}
+                        onChange={(e) => setFormData({ ...formData, level_id: e.target.value })}
+                        className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg text-sm focus:outline-none focus:border-gold transition-colors"
+                      >
+                        <option value="">-- Select Level --</option>
+                        {ranks.map((r: any) => (
+                          <option key={r.id} value={r.id}>
+                            {r.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-medium text-muted-foreground mb-1.5">Notes (Optional)</label>
                     <textarea value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} rows={2} className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg text-sm focus:outline-none focus:border-gold transition-colors resize-none" style={{ fontStyle: "normal" }} />
@@ -256,8 +379,117 @@ export default function ParentChildren() {
                 </div>
 
                 <div className="flex justify-end gap-3 mt-6">
-                  <button onClick={() => setShowModal(false)} className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-muted transition-colors">Cancel</button>
-                  <button onClick={handleSave} className="px-4 py-2 rounded-lg bg-gold text-black text-sm font-semibold hover:bg-gold-light transition-all">{editingChild ? "Save Changes" : "Add Child"}</button>
+                  <button onClick={() => setShowModal(false)} className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-muted transition-colors" disabled={loading}>Cancel</button>
+                  <button onClick={handleSave} className="px-4 py-2 rounded-lg bg-gold text-black text-sm font-semibold hover:bg-gold-light transition-all flex items-center gap-2" disabled={loading}>
+                    {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                    {editingChild ? "Save Changes" : "Add Child"}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Deposit Details Modal */}
+      <AnimatePresence>
+        {showDepositModal && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowDepositModal(false)} className="fixed inset-0 bg-black/60 z-50" />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="fixed inset-0 flex items-center justify-center z-50 p-4">
+              <div className="bg-card rounded-2xl border border-border w-full max-w-lg p-6 shadow-2xl overflow-y-auto max-h-[85vh]">
+                <div className="flex items-center justify-between mb-4 border-b border-border pb-3">
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-gold" />
+                    <h3 className="text-base font-semibold">Deposit Details - {selectedChildForDeposit?.name}</h3>
+                  </div>
+                  <button onClick={() => setShowDepositModal(false)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-muted transition-colors"><X className="w-4 h-4" /></button>
+                </div>
+
+                {loadingDeposits ? (
+                  <div className="flex flex-col items-center justify-center py-12 space-y-3">
+                    <Loader2 className="w-8 h-8 text-gold animate-spin" />
+                    <p className="text-xs text-muted-foreground">Fetching deposit records...</p>
+                  </div>
+                ) : childDeposits.length > 0 ? (
+                  <div className="space-y-4">
+                    {childDeposits.map((dep) => (
+                      <div key={dep.id} className="border border-border rounded-xl p-4 space-y-3 bg-muted/20">
+                        <div className="flex items-center justify-between border-b border-border pb-2">
+                          <span className="text-sm font-bold text-gold">{dep.course}</span>
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider ${
+                            dep.state === 'active' ? 'bg-green-500/10 text-green-400' :
+                            dep.state === 'partially_used' ? 'bg-yellow-500/10 text-yellow-400' :
+                            dep.state === 'exhausted' ? 'bg-red-500/10 text-red-400' :
+                            dep.state === 'refunded' ? 'bg-blue-500/10 text-blue-400' :
+                            'bg-muted text-muted-foreground'
+                          }`}>
+                            {dep.state_label}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <p className="text-muted-foreground">Paid Amount</p>
+                            <p className="font-semibold">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(dep.amount)}</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Date Paid</p>
+                            <p className="font-semibold">{dep.date_paid ? new Date(dep.date_paid).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : 'Unpaid'}</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Initial Credits</p>
+                            <p className="font-semibold">{dep.initial_credits} sessions</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Remaining Credits</p>
+                            <p className="font-semibold text-gold">{dep.remaining_credits} sessions</p>
+                          </div>
+                        </div>
+
+                        {/* Topup History */}
+                        {dep.topups && dep.topups.length > 0 && (
+                          <div className="pt-2 border-t border-border/50">
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Top-up History</p>
+                            <div className="space-y-1">
+                              {dep.topups.map((tp: any) => (
+                                <div key={tp.id} className="flex items-center justify-between text-[11px] bg-card p-1.5 rounded border border-border">
+                                  <span>{new Date(tp.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                                  <span className="font-semibold">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(tp.amount)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Usage History */}
+                        {dep.usages && dep.usages.length > 0 && (
+                          <div className="pt-2 border-t border-border/50">
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Deduction Logs</p>
+                            <div className="space-y-1">
+                              {dep.usages.map((us: any) => (
+                                <div key={us.id} className="text-[11px] bg-card p-1.5 rounded border border-border leading-relaxed">
+                                  <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-0.5">
+                                    <span>Usage Entry</span>
+                                    <span>{new Date(us.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                                  </div>
+                                  <p className="text-foreground/90">{us.notes}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-sm text-muted-foreground">
+                    No security deposit records found for this student.
+                  </div>
+                )}
+
+                <div className="flex justify-end mt-6 pt-3 border-t border-border">
+                  <button onClick={() => setShowDepositModal(false)} className="px-5 py-2 bg-gold hover:bg-gold-light text-black font-semibold rounded-lg text-xs transition-colors">Close</button>
                 </div>
               </div>
             </motion.div>

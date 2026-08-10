@@ -4,7 +4,7 @@ import { User, Mail, Phone, Save, Lock, Eye, EyeOff, CheckCircle2 } from "lucide
 import { useAuth } from "../../../context/AuthContext";
 
 export default function ParentProfile() {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, changePassword } = useAuth();
 
   const [profileData, setProfileData] = useState({
     name: user?.name || "",
@@ -24,14 +24,20 @@ export default function ParentProfile() {
     setTimeout(() => setProfileSaved(false), 2500);
   };
 
-  const handlePasswordSave = () => {
+  const handlePasswordSave = async () => {
     setPasswordError("");
-    if (passwordData.current !== "parent123") { setPasswordError("Current password is incorrect"); return; }
+    if (!passwordData.current) { setPasswordError("Current password is required"); return; }
     if (passwordData.newPass.length < 6) { setPasswordError("New password must be at least 6 characters"); return; }
     if (passwordData.newPass !== passwordData.confirm) { setPasswordError("Passwords do not match"); return; }
-    setPasswordSaved(true);
-    setPasswordData({ current: "", newPass: "", confirm: "" });
-    setTimeout(() => setPasswordSaved(false), 2500);
+
+    const res = await changePassword(passwordData.current, passwordData.newPass);
+    if (res.success) {
+      setPasswordSaved(true);
+      setPasswordData({ current: "", newPass: "", confirm: "" });
+      setTimeout(() => setPasswordSaved(false), 2500);
+    } else {
+      setPasswordError(res.error || "Failed to update password");
+    }
   };
 
   return (

@@ -34,6 +34,20 @@ export default defineConfig({
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
 
+  server: {
+    allowedHosts: true,
+    proxy: {
+      '/web': {
+        target: 'http://localhost:8018',
+        changeOrigin: true,
+      },
+      '/liszthoven_custom': {
+        target: 'http://localhost:8018',
+        changeOrigin: true,
+      },
+    },
+  },
+
   optimizeDeps: {
     exclude: ['motion', 'react-dnd', 'react-dnd-html5-backend'],
   },

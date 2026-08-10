@@ -43,14 +43,18 @@ export default function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    const result = login(formData.email, formData.password);
-    if (result.success) {
-      navigate(result.redirect || "/admin/dashboard");
-    } else {
-      setAuthError(result.error || "Login failed");
+    try {
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
+        navigate(result.redirect || "/portal/parent/dashboard");
+      } else {
+        setAuthError(result.error || "Login failed");
+      }
+    } catch (err: any) {
+      setAuthError(err.message || "An unexpected error occurred");
     }
   };
 
@@ -102,28 +106,6 @@ export default function Login() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl"
         >
-          {/* Demo hint */}
-          <div className="mb-6 p-3 rounded-xl bg-gold/10 border border-gold/20 flex items-start gap-3">
-            <AlertCircle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
-            <div className="text-xs text-gold/80 space-y-1">
-              <span className="font-semibold text-gold block">
-                Demo credentials:
-              </span>
-              <span className="block">
-                Parent: parent@example.com / parent123
-              </span>
-              <span className="block">
-                Student: student@example.com / student123
-              </span>
-              <span className="block">
-                Teacher: teacher@example.com / teacher123
-              </span>
-              <span className="block">
-                Admin: admin@liszthovenacademy.com / admin123
-              </span>
-            </div>
-          </div>
-
           {authError && (
             <div className="mb-4 p-3 rounded-xl bg-destructive/10 border border-destructive/20 flex items-center gap-2 text-sm text-destructive">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />

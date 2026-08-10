@@ -14,14 +14,6 @@ import Contact from "./pages/Contact";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminStudents from "./pages/admin/AdminStudents";
-import AdminAttendance from "./pages/admin/AdminAttendance";
-import AdminInstruments from "./pages/admin/AdminInstruments";
-import AdminCalendar from "./pages/admin/AdminCalendar";
-import AdminArticles from "./pages/admin/AdminArticles";
-import AdminProfile from "./pages/admin/AdminProfile";
 import ParentLayout from "./pages/portal/parent/ParentLayout";
 import ParentDashboard from "./pages/portal/parent/ParentDashboard";
 import ParentChildren from "./pages/portal/parent/ParentChildren";
@@ -41,6 +33,7 @@ import TeacherDashboard from "./pages/portal/teacher/TeacherDashboard";
 import TeacherStudents from "./pages/portal/teacher/TeacherStudents";
 import TeacherAttendance from "./pages/portal/teacher/TeacherAttendance";
 import TeacherCourses from "./pages/portal/teacher/TeacherCourses";
+import TeacherRescheduleRequests from "./pages/portal/teacher/TeacherRescheduleRequests";
 import TeacherCalendar from "./pages/portal/teacher/TeacherCalendar";
 import TeacherNews from "./pages/portal/teacher/TeacherNews";
 import TeacherProfile from "./pages/portal/teacher/TeacherProfile";
@@ -66,20 +59,6 @@ export const router = createBrowserRouter([
       { path: "register", Component: Register },
       { path: "login", Component: Login },
       { path: "*", Component: NotFound },
-    ],
-  },
-  {
-    path: "/admin",
-    Component: AdminLayout,
-    children: [
-      { index: true, Component: AdminDashboard },
-      { path: "dashboard", Component: AdminDashboard },
-      { path: "students", Component: AdminStudents },
-      { path: "attendance", Component: AdminAttendance },
-      { path: "instruments", Component: AdminInstruments },
-      { path: "calendar", Component: AdminCalendar },
-      { path: "articles", Component: AdminArticles },
-      { path: "profile", Component: AdminProfile },
     ],
   },
   {
@@ -117,6 +96,7 @@ export const router = createBrowserRouter([
       { path: "students", Component: TeacherStudents },
       { path: "attendance", Component: TeacherAttendance },
       { path: "courses", Component: TeacherCourses },
+      { path: "reschedules", Component: TeacherRescheduleRequests },
       { path: "calendar", Component: TeacherCalendar },
       { path: "news", Component: TeacherNews },
       { path: "profile", Component: TeacherProfile },

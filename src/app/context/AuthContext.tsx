@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 
-export type UserRole = "admin" | "parent" | "student" | "teacher";
+export type UserRole = "parent" | "student" | "teacher";
 
 export interface PortalUser {
   id: string;
@@ -12,55 +12,7 @@ export interface PortalUser {
   bio: string;
 }
 
-const DUMMY_USERS: Array<PortalUser & { password: string }> = [
-  {
-    id: "1",
-    email: "admin@liszthovenacademy.com",
-    password: "admin123",
-    name: "Alexandra Morrison",
-    role: "admin",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-    phone: "+1 (555) 234-5678",
-    bio: "Music education director with 15 years of experience.",
-  },
-  {
-    id: "2",
-    email: "parent@example.com",
-    password: "parent123",
-    name: "Sarah Johnson",
-    role: "parent",
-    avatar:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-    phone: "+1 (555) 301-2244",
-    bio: "Parent of Emily and Lucas, both enrolled at Liszthoven Academy.",
-  },
-  {
-    id: "3",
-    email: "student@example.com",
-    password: "student123",
-    name: "Emily Johnson",
-    role: "student",
-    avatar:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-    phone: "+1 (555) 301-2244",
-    bio: "Piano student at Liszthoven Academy, Downtown Branch.",
-  },
-  {
-    id: "4",
-    email: "teacher@example.com",
-    password: "teacher123",
-    name: "James Rodriguez",
-    role: "teacher",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=200",
-    phone: "+1 (555) 456-7890",
-    bio: "Guitar instructor with 10+ years of teaching experience at Liszthoven Academy.",
-  },
-];
-
 const REDIRECT_MAP: Record<UserRole, string> = {
-  admin: "/admin/dashboard",
   parent: "/portal/parent/dashboard",
   student: "/portal/student/dashboard",
   teacher: "/portal/teacher/dashboard",
@@ -71,41 +23,108 @@ interface AuthContextType {
   login: (
     email: string,
     password: string,
-  ) => { success: boolean; error?: string; redirect?: string };
-  logout: () => void;
+  ) => Promise<{ success: boolean; error?: string; redirect?: string }>;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
   updateProfile: (updates: Partial<PortalUser>) => void;
+  loading: boolean;
+  changePassword: (
+    current: string,
+    newPass: string,
+  ) => Promise<{ success: boolean; error?: string }>;
+  registerSuccess: (user: PortalUser) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+export async function odooCall(url: string, params: any = {}) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept-Language": "en-US",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "call",
+      params: params,
+    }),
+  });
+  const data = await response.json();
+  if (data.error) {
+    throw new Error(data.error.data?.message || data.error.message || "Request failed");
+  }
+  return data.result;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<PortalUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (email: string, password: string) => {
-    const found = DUMMY_USERS.find(
-      (u) => u.email === email && u.password === password,
-    );
-    if (found) {
-      const { password: _pw, ...userData } = found;
-      setUser(userData);
-      return { success: true, redirect: REDIRECT_MAP[userData.role] };
+  useEffect(() => {
+    odooCall("/liszthoven_custom/auth/session")
+      .then((res) => {
+        if (res && res.success && res.user) {
+          setUser(res.user);
+        }
+      })
+      .catch((err) => {
+        console.error("Session check failed:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await odooCall("/liszthoven_custom/auth/login", { email, password });
+      if (res && res.success && res.user) {
+        setUser(res.user);
+        return { success: true, redirect: REDIRECT_MAP[res.user.role] };
+      }
+      return { success: false, error: res?.error || "Login failed" };
+    } catch (err: any) {
+      return { success: false, error: err.message || "Network error" };
     }
-    return {
-      success: false,
-      error:
-        "Invalid credentials. Try: parent@example.com / parent123  |  student@example.com / student123  |  teacher@example.com / teacher123",
-    };
   };
 
-  const logout = () => setUser(null);
+  const logout = async () => {
+    try {
+      await odooCall("/liszthoven_custom/auth/logout");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      setUser(null);
+    }
+  };
+
   const updateProfile = (updates: Partial<PortalUser>) => {
     if (user) setUser({ ...user, ...updates });
   };
 
+  const changePassword = async (current: string, newPass: string) => {
+    try {
+      const res = await odooCall("/liszthoven_custom/auth/change_password", {
+        current_password: current,
+        new_password: newPass,
+      });
+      if (res && res.success) {
+        return { success: true };
+      }
+      return { success: false, error: res?.error || "Failed to update password" };
+    } catch (err: any) {
+      return { success: false, error: err.message || "Network error" };
+    }
+  };
+
+  const registerSuccess = (u: PortalUser) => {
+    setUser(u);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, isAuthenticated: !!user, updateProfile }}
+      value={{ user, login, logout, isAuthenticated: !!user, updateProfile, loading, changePassword, registerSuccess }}
     >
       {children}
     </AuthContext.Provider>

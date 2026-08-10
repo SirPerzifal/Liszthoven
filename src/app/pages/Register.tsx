@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
@@ -12,44 +12,70 @@ import {
   Eye,
   EyeOff,
   RefreshCw,
+  Building2,
+  Loader2,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import FloatingNodes from "../components/FloatingNodes";
+import { odooCall, useAuth } from "../context/AuthContext";
 
 const steps = [
   { id: 1, name: "Your Info", title: "Create Your Account" },
-  { id: 2, name: "Verify", title: "Verify Your Email" },
+  { id: 2, name: "Verify", title: "Verify Your Phone" },
   { id: 3, name: "Done", title: "Account Created!" },
 ];
 
 export default function Register() {
   const navigate = useNavigate();
+  const { registerSuccess } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [otpError, setOtpError] = useState("");
   const [resent, setResent] = useState(false);
+  const [branches, setBranches] = useState<{ id: number; name: string }[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [countryCode, setCountryCode] = useState("+62");
 
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     password: "",
+    branchId: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    async function loadBranches() {
+      try {
+        const res = await odooCall("/liszthoven_custom/branches");
+        if (res && res.success) {
+          setBranches(res.branches);
+        }
+      } catch (err) {
+        console.error("Failed to load branches:", err);
+      }
+    }
+    loadBranches();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     if (errors[name]) setErrors({ ...errors, [name]: "" });
+    if (errors.submit) setErrors({ ...errors, submit: "" });
   };
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
+    if (!formData.branchId) newErrors.branchId = "Please select a branch";
     if (!formData.name.trim()) newErrors.name = "Full name is required";
+    
+    const phoneDigits = formData.phone.replace(/\D/g, "");
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
-    else if (!/^\+?[\d\s\-()]{8,}$/.test(formData.phone))
-      newErrors.phone = "Enter a valid phone number";
+    else if (phoneDigits.length < 5) newErrors.phone = "Enter a valid phone number";
+
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = "Enter a valid email address";
@@ -58,6 +84,45 @@ export default function Register() {
       newErrors.password = "Password must be at least 8 characters";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInitiate = async () => {
+    if (!validate()) return;
+    try {
+      setLoading(true);
+      setErrors({});
+
+      let localNum = formData.phone.trim();
+      // Auto-strip leading '0' or matching country prefix if user accidentally enters it
+      if (localNum.startsWith("0")) {
+        localNum = localNum.substring(1);
+      }
+      if (localNum.startsWith(countryCode)) {
+        localNum = localNum.substring(countryCode.length);
+      }
+      localNum = localNum.replace(/\D/g, "");
+      const fullPhone = `${countryCode}${localNum}`;
+
+      const res = await odooCall("/liszthoven_custom/auth/register/initiate", {
+        name: formData.name,
+        phone: fullPhone,
+        email: formData.email,
+        password: formData.password,
+        branch_id: formData.branchId,
+      });
+      if (res && res.success) {
+        setFormData(prev => ({ ...prev, phone: fullPhone }));
+        setOtp(["", "", "", "", "", ""]);
+        setOtpError("");
+        setCurrentStep(2);
+      } else {
+        setErrors({ submit: res?.error || "Registration failed. Please try again." });
+      }
+    } catch (err: any) {
+      setErrors({ submit: err.message || "An unexpected error occurred." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -79,20 +144,47 @@ export default function Register() {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const code = otp.join("");
-    if (code === "123456") {
-      setCurrentStep(3);
-    } else {
-      setOtpError("Invalid code. Use 123456 for demo.");
+    if (code.length < 6) {
+      setOtpError("Please enter the 6-digit verification code.");
+      return;
+    }
+    try {
+      setLoading(true);
+      setOtpError("");
+      const res = await odooCall("/liszthoven_custom/auth/register/verify", {
+        otp: code,
+      });
+      if (res && res.success) {
+        setCurrentStep(3);
+      } else {
+        setOtpError(res?.error || "Verification failed. Try again.");
+      }
+    } catch (err: any) {
+      setOtpError(err.message || "An error occurred during verification.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleResend = () => {
-    setResent(true);
-    setOtp(["", "", "", "", "", ""]);
-    setOtpError("");
-    setTimeout(() => setResent(false), 3000);
+  const handleResend = async () => {
+    try {
+      setResent(true);
+      setOtp(["", "", "", "", "", ""]);
+      setOtpError("");
+      await odooCall("/liszthoven_custom/auth/register/initiate", {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        password: formData.password,
+        branch_id: formData.branchId,
+      });
+      setTimeout(() => setResent(false), 3000);
+    } catch (err: any) {
+      setOtpError("Failed to resend verification code.");
+      setResent(false);
+    }
   };
 
   return (
@@ -178,9 +270,39 @@ export default function Register() {
             {currentStep === 1 && (
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
                 <p className="text-sm text-white/60 mb-6">
-                  Fill in your details to create a parent account
+                  Select your branch and fill in your details to create a parent account
                 </p>
+
+                {errors.submit && (
+                  <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-xs mb-4">
+                    {errors.submit}
+                  </div>
+                )}
+
                 <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-gold" />
+                      Select Branch
+                    </label>
+                    <select
+                      name="branchId"
+                      value={formData.branchId}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors appearance-none ${errors.branchId ? "border-red-500" : "border-white/10 focus:border-gold"}`}
+                      style={{ colorScheme: "dark" }}
+                    >
+                      <option value="" className="bg-primary text-white/60">Choose your academy branch</option>
+                      {branches.map(b => (
+                        <option key={b.id} value={b.id} className="bg-primary text-white">
+                          {b.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.branchId && (
+                      <p className="text-xs text-red-400 mt-1">{errors.branchId}</p>
+                    )}
+                  </div>
                   <div>
                     <label className="block text-sm font-medium mb-2 flex items-center gap-2">
                       <User className="w-4 h-4 text-gold" />
@@ -201,16 +323,39 @@ export default function Register() {
                   <div>
                     <label className="block text-sm font-medium mb-2 flex items-center gap-2">
                       <Phone className="w-4 h-4 text-gold" />
-                      Mobile Number
+                      Mobile Number (WhatsApp)
                     </label>
-                    <input
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+1 (555) 000-0000"
-                      className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.phone ? "border-red-500" : "border-white/10 focus:border-gold"}`}
-                    />
+                    <div className="flex gap-2">
+                      <select
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                        className="px-3 py-3 rounded-lg bg-[#141517] border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-gold transition-colors text-sm w-[110px]"
+                        style={{ colorScheme: "dark" }}
+                      >
+                        <option value="+62">+62 🇮🇩</option>
+                        <option value="+65">+65 🇸🇬</option>
+                        <option value="+60">+60 🇲🇾</option>
+                        <option value="+1">+1 🇺🇸</option>
+                        <option value="+44">+44 🇬🇧</option>
+                        <option value="+61">+61 🇦🇺</option>
+                        <option value="+81">+81 🇯🇵</option>
+                        <option value="+82">+82 🇰🇷</option>
+                        <option value="+86">+86 🇨🇳</option>
+                        <option value="+852">+852 🇭🇰</option>
+                        <option value="+66">+66 🇹🇭</option>
+                        <option value="+63">+63 🇵🇭</option>
+                        <option value="+84">+84 🇻🇳</option>
+                        <option value="+91">+91 🇮🇳</option>
+                      </select>
+                      <input
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="812-3456-7890"
+                        className={`flex-1 px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.phone ? "border-red-500" : "border-white/10 focus:border-gold"}`}
+                      />
+                    </div>
                     {errors.phone && (
                       <p className="text-xs text-red-400 mt-1">
                         {errors.phone}
@@ -270,12 +415,20 @@ export default function Register() {
                   </div>
                 </div>
                 <button
-                  onClick={() => {
-                    if (validate()) setCurrentStep(2);
-                  }}
+                  onClick={handleInitiate}
                   className="w-full mt-6 bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl"
+                  disabled={loading}
                 >
-                  Continue <ArrowRight className="w-5 h-5" />
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                      Initializing...
+                    </>
+                  ) : (
+                    <>
+                      Continue <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
                 <p className="text-center text-sm text-white/50 mt-4">
                   Already have an account?{" "}
@@ -293,13 +446,13 @@ export default function Register() {
             {currentStep === 2 && (
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl text-center">
                 <div className="w-14 h-14 bg-gold/10 rounded-full flex items-center justify-center border border-gold/20 mx-auto mb-4">
-                  <Mail className="w-6 h-6 text-gold" />
+                  <Phone className="w-6 h-6 text-gold" />
                 </div>
                 <p className="text-sm text-white/60 mb-1">
-                  We sent a verification code to
+                  We sent a verification code via WhatsApp to
                 </p>
                 <p className="font-medium text-gold mb-6">
-                  {formData.email || "your email"}
+                  {formData.phone || "your phone number"}
                 </p>
 
                 <div className="flex gap-2 justify-center mb-2">
@@ -328,8 +481,18 @@ export default function Register() {
                 <button
                   onClick={handleVerify}
                   className="w-full bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl mb-4"
+                  disabled={loading}
                 >
-                  Verify Email <ArrowRight className="w-5 h-5" />
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                      Verifying...
+                    </>
+                  ) : (
+                    <>
+                      Verify Code <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
 
                 <div className="flex items-center justify-between">
@@ -343,6 +506,7 @@ export default function Register() {
                   <button
                     onClick={handleResend}
                     className={`flex items-center gap-1.5 text-sm transition-colors ${resent ? "text-green-400" : "text-white/50 hover:text-gold"}`}
+                    disabled={resent || loading}
                   >
                     <RefreshCw
                       className={`w-4 h-4 ${resent ? "animate-spin" : ""}`}
@@ -400,10 +564,10 @@ export default function Register() {
                 </div>
 
                 <button
-                  onClick={() => navigate("/portal/parent/dashboard")}
+                  onClick={() => navigate("/login")}
                   className="w-full bg-gold text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gold-light transition-all inline-flex items-center justify-center gap-2 shadow-xl"
                 >
-                  Go to Dashboard <ArrowRight className="w-5 h-5" />
+                  Go to Login <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
             )}
