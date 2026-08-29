@@ -38,11 +38,11 @@ export default defineConfig({
     allowedHosts: true,
     proxy: {
       '/web': {
-        target: 'https://backend.liszthoven.com',
+        target: 'http://localhost:8018',
         changeOrigin: true,
       },
       '/liszthoven_custom': {
-        target: 'https://backend.liszthoven.com',
+        target: 'http://localhost:8018',
         changeOrigin: true,
       },
     },

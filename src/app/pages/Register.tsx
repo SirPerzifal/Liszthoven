@@ -44,6 +44,7 @@ export default function Register() {
     email: "",
     password: "",
     branchId: "",
+    parentRelation: "" as "father" | "mother" | "",
   });
 
   useEffect(() => {
@@ -109,6 +110,7 @@ export default function Register() {
         email: formData.email,
         password: formData.password,
         branch_id: formData.branchId,
+        parent_relation: formData.parentRelation || false,
       });
       if (res && res.success) {
         setFormData(prev => ({ ...prev, phone: fullPhone }));
@@ -280,6 +282,33 @@ export default function Register() {
                 )}
 
                 <div className="space-y-4">
+                  {/* ── Parent Role Selector ── */}
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-white">
+                      Your Role <span className="text-white/40 text-xs font-normal">(optional — can be set later)</span>
+                    </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      {([
+                        { value: "father", label: "👨 Father" },
+                        { value: "mother", label: "👩 Mother" },
+                      ] as const).map(({ value, label }) => (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, parentRelation: prev.parentRelation === value ? "" : value }))}
+                          className={`py-3 px-4 rounded-lg border text-sm font-semibold transition-all ${
+                            formData.parentRelation === value
+                              ? "border-gold bg-gold/15 text-gold shadow-lg shadow-gold/10"
+                              : "border-white/10 bg-white/5 text-white/60 hover:border-white/30 hover:bg-white/8"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ── Branch ── */}
                   <div>
                     <label className="block text-sm font-medium mb-2 flex items-center gap-2">
                       <Building2 className="w-4 h-4 text-gold" />
@@ -303,6 +332,8 @@ export default function Register() {
                       <p className="text-xs text-red-400 mt-1">{errors.branchId}</p>
                     )}
                   </div>
+
+                  {/* ── Full Name ── */}
                   <div>
                     <label className="block text-sm font-medium mb-2 flex items-center gap-2">
                       <User className="w-4 h-4 text-gold" />
@@ -316,10 +347,10 @@ export default function Register() {
                       placeholder="Your full name"
                       className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.name ? "border-red-500" : "border-white/10 focus:border-gold"}`}
                     />
-                    {errors.name && (
-                      <p className="text-xs text-red-400 mt-1">{errors.name}</p>
-                    )}
+                    {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
                   </div>
+
+                  {/* ── Phone ── */}
                   <div>
                     <label className="block text-sm font-medium mb-2 flex items-center gap-2">
                       <Phone className="w-4 h-4 text-gold" />
@@ -329,7 +360,7 @@ export default function Register() {
                       <select
                         value={countryCode}
                         onChange={(e) => setCountryCode(e.target.value)}
-                        className="px-3 py-3 rounded-lg bg-[#141517] border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-gold transition-colors text-sm w-[110px]"
+                        className="px-3 py-3 rounded-lg bg-[#141517] border border-white/10 text-white focus:outline-none focus:border-gold transition-colors text-sm w-[110px]"
                         style={{ colorScheme: "dark" }}
                       >
                         <option value="+62">+62 🇮🇩</option>
@@ -356,12 +387,10 @@ export default function Register() {
                         className={`flex-1 px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.phone ? "border-red-500" : "border-white/10 focus:border-gold"}`}
                       />
                     </div>
-                    {errors.phone && (
-                      <p className="text-xs text-red-400 mt-1">
-                        {errors.phone}
-                      </p>
-                    )}
+                    {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone}</p>}
                   </div>
+
+                  {/* ── Email ── */}
                   <div>
                     <label className="block text-sm font-medium mb-2 flex items-center gap-2">
                       <Mail className="w-4 h-4 text-gold" />
@@ -375,12 +404,10 @@ export default function Register() {
                       placeholder="your@email.com"
                       className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-white placeholder:text-white/40 focus:outline-none transition-colors ${errors.email ? "border-red-500" : "border-white/10 focus:border-gold"}`}
                     />
-                    {errors.email && (
-                      <p className="text-xs text-red-400 mt-1">
-                        {errors.email}
-                      </p>
-                    )}
+                    {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
                   </div>
+
+                  {/* ── Password ── */}
                   <div>
                     <label className="block text-sm font-medium mb-2 flex items-center gap-2">
                       <Lock className="w-4 h-4 text-gold" />
@@ -400,18 +427,10 @@ export default function Register() {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
                       >
-                        {showPassword ? (
-                          <EyeOff className="w-4 h-4" />
-                        ) : (
-                          <Eye className="w-4 h-4" />
-                        )}
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
-                    {errors.password && (
-                      <p className="text-xs text-red-400 mt-1">
-                        {errors.password}
-                      </p>
-                    )}
+                    {errors.password && <p className="text-xs text-red-400 mt-1">{errors.password}</p>}
                   </div>
                 </div>
                 <button

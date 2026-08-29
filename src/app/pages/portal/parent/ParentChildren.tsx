@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Edit2, X, Archive, Baby, Music2, Calendar, Loader2, CreditCard } from "lucide-react";
+import { Plus, Edit2, X, Archive, Baby, Music2, Calendar, Loader2, CreditCard, MapPin } from "lucide-react";
+
 import { odooCall } from "../../../context/AuthContext";
 
 interface Child {
@@ -29,6 +30,22 @@ function getAge(dob: string) {
   return age;
 }
 
+const batamSchools = [
+  "Sekolah Indobaru Utama (IPK)",
+  "Sekolah Yos Sudarso",
+  "Universal School Batam",
+  "Mondial School",
+  "Djuwita National Plus",
+  "Sekolah Kallista",
+  "Sekolah Maitreyawira Batam",
+  "Sekolah Basic Batam",
+  "Global Indo-Asia (GIA)",
+  "Sekolah Permata Harapan",
+  "Nanyang International School",
+  "Sekolah Charis Batam",
+  "Sekolah Anugerah Batam",
+];
+
 export default function ParentChildren() {
   const [children, setChildren] = useState<Child[]>([]);
   const [ranks, setRanks] = useState<any[]>([]);
@@ -37,6 +54,7 @@ export default function ParentChildren() {
   const [showModal, setShowModal] = useState(false);
   const [editingChild, setEditingChild] = useState<Child | null>(null);
   const [formData, setFormData] = useState(emptyForm);
+  const [formTouched, setFormTouched] = useState(false);
 
   const [selectedChildForDeposit, setSelectedChildForDeposit] = useState<Child | null>(null);
   const [childDeposits, setChildDeposits] = useState<any[]>([]);
@@ -89,6 +107,7 @@ export default function ParentChildren() {
   const openAdd = () => { 
     setEditingChild(null); 
     setFormData(emptyForm); 
+    setFormTouched(false);
     setShowModal(true); 
   };
   
@@ -103,11 +122,13 @@ export default function ParentChildren() {
       level_id: (child as any).level_id ? String((child as any).level_id) : "",
       notes: child.notes 
     });
+    setFormTouched(false);
     setShowModal(true);
   };
 
   const handleSave = async () => {
-    if (!formData.name) return;
+    setFormTouched(true);
+    if (!formData.name.trim()) return;
     try {
       setLoading(true);
       const res = await odooCall("/liszthoven_custom/parent/children/save", {
@@ -208,6 +229,15 @@ export default function ParentChildren() {
                   </p>
                   {child.school && (
                     <p className="text-xs text-muted-foreground mt-0.5">{child.school}</p>
+                  )}
+                  {/* Address from parent */}
+                  {((child as any).street || (child as any).city) ? (
+                    <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
+                      <MapPin className="w-3 h-3 text-gold flex-shrink-0" />
+                      {[(child as any).street, (child as any).city, (child as any).zip].filter(Boolean).join(", ")}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-muted-foreground/50 mt-0.5 italic">No address — add it in your profile</p>
                   )}
                 </div>
               </div>
@@ -332,14 +362,35 @@ export default function ParentChildren() {
 
                 <div className="space-y-4">
                   {[
-                    { key: "name", label: "Full Name", type: "text" },
-                    { key: "dob", label: "Date of Birth", type: "date" },
-                    { key: "phone", label: "Phone (Optional)", type: "tel" },
-                    { key: "school", label: "School (Optional)", type: "text" },
-                  ].map(({ key, label, type }) => (
+                    { key: "name", label: "Full Name", type: "text", required: true },
+                    { key: "dob", label: "Date of Birth", type: "date", required: false },
+                    { key: "phone", label: "Phone (Optional)", type: "tel", required: false },
+                    { key: "school", label: "School (Optional)", type: "text", required: false },
+                  ].map(({ key, label, type, required }) => (
                     <div key={key}>
                       <label className="block text-xs font-medium text-muted-foreground mb-1.5">{label}</label>
-                      <input type={type} value={(formData as any)[key]} onChange={(e) => setFormData({ ...formData, [key]: e.target.value })} className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg text-sm focus:outline-none focus:border-gold transition-colors" />
+                      <input
+                        type={type}
+                        list={key === "school" ? "batam-schools" : undefined}
+                        value={(formData as any)[key]}
+                        onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                        placeholder={key === "school" ? "Select or type school name" : undefined}
+                        className={`w-full px-3 py-2.5 bg-muted border rounded-lg text-sm focus:outline-none transition-colors ${
+                          required && formTouched && !(formData as any)[key].trim()
+                            ? "border-red-500 text-red-400 focus:border-red-500"
+                            : "border-border focus:border-gold"
+                        }`}
+                      />
+                      {key === "school" && (
+                        <datalist id="batam-schools">
+                          {batamSchools.map((s) => (
+                            <option key={s} value={s} />
+                          ))}
+                        </datalist>
+                      )}
+                      {required && formTouched && !(formData as any)[key].trim() && (
+                        <p className="text-[11px] text-red-400 mt-1">This field is required.</p>
+                      )}
                     </div>
                   ))}
 

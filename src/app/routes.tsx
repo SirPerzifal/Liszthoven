@@ -37,6 +37,8 @@ import TeacherRescheduleRequests from "./pages/portal/teacher/TeacherRescheduleR
 import TeacherCalendar from "./pages/portal/teacher/TeacherCalendar";
 import TeacherNews from "./pages/portal/teacher/TeacherNews";
 import TeacherProfile from "./pages/portal/teacher/TeacherProfile";
+import TeacherLevelUpgrade from "./pages/portal/teacher/TeacherLevelUpgrade";
+
 
 export const router = createBrowserRouter([
   {
@@ -100,6 +102,7 @@ export const router = createBrowserRouter([
       { path: "calendar", Component: TeacherCalendar },
       { path: "news", Component: TeacherNews },
       { path: "profile", Component: TeacherProfile },
+      { path: "level-upgrade", Component: TeacherLevelUpgrade },
     ],
   },
 ]);

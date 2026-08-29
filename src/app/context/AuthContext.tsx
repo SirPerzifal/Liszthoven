@@ -10,6 +10,9 @@ export interface PortalUser {
   avatar: string;
   phone: string;
   bio: string;
+  street: string;
+  city: string;
+  zip: string;
 }
 
 const REDIRECT_MAP: Record<UserRole, string> = {
