@@ -8,7 +8,7 @@ const eventData: Record<string, any> = {
     category: "Concerts",
     description: "Join us for our annual Spring Student Recital featuring performances from students of all levels. This inspiring event showcases the remarkable progress and talent of our students as they perform classical, jazz, and contemporary pieces.",
     image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    date: "June 15, 2026",
+    date: "15/06/2026",
     time: "7:00 PM",
     endTime: "9:00 PM",
     location: "Main Concert Hall",
@@ -39,7 +39,7 @@ const eventData: Record<string, any> = {
     category: "Workshops",
     description: "Learn the art of jazz improvisation from professional jazz musicians in this hands-on workshop. Perfect for intermediate to advanced students looking to enhance their improvisation skills.",
     image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    date: "June 22, 2026",
+    date: "22/06/2026",
     time: "2:00 PM",
     endTime: "5:00 PM",
     location: "Studio A",
@@ -70,7 +70,7 @@ const eventData: Record<string, any> = {
     category: "Concerts",
     description: "Grammy-winning pianist Maria Santos performs works by Chopin, Liszt, and Rachmaninoff in an unforgettable evening of classical piano mastery.",
     image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    date: "August 5, 2026",
+    date: "05/08/2026",
     time: "7:30 PM",
     endTime: "9:30 PM",
     location: "Grand Theater",
@@ -96,6 +96,24 @@ const eventData: Record<string, any> = {
       "https://images.unsplash.com/photo-1552422535-c45813c61732?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600"
     ]
   }
+};
+
+// Helper to format date into dd/mm/yyyy
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) return dateStr;
+  const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    return `${match[3]}/${match[2]}/${match[1]}`;
+  }
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+  return dateStr;
 };
 
 export default function EventDetail() {
@@ -141,7 +159,7 @@ export default function EventDetail() {
             <div className="flex flex-wrap gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-gold" />
-                <span>{event.date}</span>
+                <span>{formatDate(event.date)}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-gold" />
@@ -249,7 +267,7 @@ export default function EventDetail() {
                   <Calendar className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
                     <div className="text-sm text-muted-foreground mb-1">Date</div>
-                    <div className="font-medium">{event.date}</div>
+                    <div className="font-medium">{formatDate(event.date)}</div>
                   </div>
                 </div>
 
