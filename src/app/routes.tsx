@@ -34,6 +34,7 @@ import TeacherStudents from "./pages/portal/teacher/TeacherStudents";
 import TeacherAttendance from "./pages/portal/teacher/TeacherAttendance";
 import TeacherCourses from "./pages/portal/teacher/TeacherCourses";
 import TeacherRescheduleRequests from "./pages/portal/teacher/TeacherRescheduleRequests";
+import TeacherTimeOff from "./pages/portal/teacher/TeacherTimeOff";
 import TeacherCalendar from "./pages/portal/teacher/TeacherCalendar";
 import TeacherNews from "./pages/portal/teacher/TeacherNews";
 import TeacherProfile from "./pages/portal/teacher/TeacherProfile";
@@ -99,6 +100,7 @@ export const router = createBrowserRouter([
       { path: "attendance", Component: TeacherAttendance },
       { path: "courses", Component: TeacherCourses },
       { path: "reschedules", Component: TeacherRescheduleRequests },
+      { path: "time-off", Component: TeacherTimeOff },
       { path: "calendar", Component: TeacherCalendar },
       { path: "news", Component: TeacherNews },
       { path: "profile", Component: TeacherProfile },
