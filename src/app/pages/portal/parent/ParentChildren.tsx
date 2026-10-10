@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Edit2, X, Archive, Baby, Music2, Calendar, Loader2, CreditCard, MapPin } from "lucide-react";
+import { Plus, Edit2, X, Archive, Baby, Music2, Calendar, Loader2, CreditCard, MapPin, Gift, Copy, Check, CheckCircle2, AlertCircle } from "lucide-react";
 
 import { odooCall } from "../../../context/AuthContext";
 
@@ -14,6 +14,13 @@ interface Child {
   avatar: string;
   status: "active" | "archived";
   enrolledPrograms: string[];
+  referral_code?: string;
+  referred_by_name?: string;
+  pending_referral_rewards?: number;
+  is_sibling?: boolean;
+  discount_type?: string;
+  discount_note?: string;
+  discount_amount?: number;
 }
 
 const emptyForm = {
@@ -60,6 +67,54 @@ export default function ParentChildren() {
   const [childDeposits, setChildDeposits] = useState<any[]>([]);
   const [loadingDeposits, setLoadingDeposits] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
+
+  // Referral states
+  const [referralInput, setReferralInput] = useState("");
+  const [referralValidating, setReferralValidating] = useState(false);
+  const [referralResult, setReferralResult] = useState<{
+    valid: boolean;
+    referrer_id?: number;
+    referrer_name?: string;
+    referral_code?: string;
+    message?: string;
+    error?: string;
+  } | null>(null);
+  const [copiedCode, setCopiedCode] = useState<string>("");
+
+  const handleValidateReferral = async (inputVal: string) => {
+    const trimmed = inputVal.trim();
+    if (!trimmed) {
+      setReferralResult(null);
+      return;
+    }
+    try {
+      setReferralValidating(true);
+      const res = await odooCall("/liszthoven_custom/referral/validate", {
+        referral_input: trimmed,
+      });
+      if (res && res.valid) {
+        setReferralResult({
+          valid: true,
+          referrer_id: res.referrer_id,
+          referrer_name: res.referrer_name,
+          referral_code: res.referral_code,
+          message: res.message,
+        });
+      } else {
+        setReferralResult({
+          valid: false,
+          error: res?.error || "Kode atau murid tidak ditemukan.",
+        });
+      }
+    } catch (err: any) {
+      setReferralResult({
+        valid: false,
+        error: "Gagal memverifikasi kode referral.",
+      });
+    } finally {
+      setReferralValidating(false);
+    }
+  };
 
   const viewDepositDetails = async (child: Child) => {
     setSelectedChildForDeposit(child);
@@ -108,6 +163,8 @@ export default function ParentChildren() {
     setEditingChild(null); 
     setFormData(emptyForm); 
     setFormTouched(false);
+    setReferralInput("");
+    setReferralResult(null);
     setShowModal(true); 
   };
   
@@ -123,6 +180,8 @@ export default function ParentChildren() {
       notes: child.notes 
     });
     setFormTouched(false);
+    setReferralInput("");
+    setReferralResult(null);
     setShowModal(true);
   };
 
@@ -140,6 +199,8 @@ export default function ParentChildren() {
         phone: formData.phone || undefined,
         level_id: formData.level_id || undefined,
         notes: formData.notes || undefined,
+        referral_input: !editingChild && referralInput.trim() ? referralInput.trim() : undefined,
+        referred_by_id: !editingChild && referralResult?.valid ? referralResult.referrer_id : undefined,
       });
       if (res.success) {
         await fetchChildren();
@@ -263,6 +324,65 @@ export default function ParentChildren() {
                 </span>
                 <span className="text-xs font-bold text-gold hover:underline">{(child as any).deposit_credit ?? 0} sessions</span>
               </button>
+
+              {/* Child Referral Code Card */}
+              {child.referral_code && (
+                <div className="bg-gradient-to-r from-gold/10 via-gold/5 to-transparent border border-gold/25 rounded-lg p-2.5 flex items-center justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-[11px] font-semibold text-gold flex items-center gap-1">
+                      <Gift className="w-3 h-3" />
+                      Kode Referral Murid
+                    </span>
+                    <span className="text-xs font-mono font-bold tracking-wider text-foreground">
+                      {child.referral_code}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(child.referral_code || "");
+                      setCopiedCode(child.referral_code || "");
+                      setTimeout(() => setCopiedCode(""), 2000);
+                    }}
+                    className="px-2.5 py-1 bg-gold text-black rounded text-[11px] font-semibold hover:bg-gold-light transition-all flex items-center gap-1 flex-shrink-0"
+                    title="Bagikan kode ini ke teman untuk dapat diskon SPP Rp 100.000"
+                  >
+                    {copiedCode === child.referral_code ? (
+                      <>
+                        <Check className="w-3 h-3 text-black" />
+                        Tersalin!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3 text-black" />
+                        Salin
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {/* Sibling / Promo / Referral Badges */}
+              {(child.is_sibling || (child as any).discount_type === 'sibling') && (
+                <div className="text-[11px] text-purple-300 flex items-center gap-1.5 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-lg">
+                  <Baby className="w-3.5 h-3.5 flex-shrink-0 text-gold" />
+                  <span>Diskon Saudara Kandung (Pendaftaran Gratis)</span>
+                </div>
+              )}
+
+              {!(child.is_sibling || (child as any).discount_type === 'sibling') && (child as any).discount_type === 'promo' && (
+                <div className="text-[11px] text-amber-300 flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-lg">
+                  <Gift className="w-3.5 h-3.5 flex-shrink-0 text-gold" />
+                  <span>{(child as any).discount_note || 'Diskon Promo Pameran'}</span>
+                </div>
+              )}
+
+              {child.referred_by_name && (
+                <div className="text-[11px] text-emerald-400 flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg">
+                  <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
+                  <span>Terdaftar via teman: <strong>{child.referred_by_name}</strong></span>
+                </div>
+              )}
 
               {child.dob && (
                 <div className="flex items-center gap-2">
@@ -420,6 +540,179 @@ export default function ParentChildren() {
                           </option>
                         ))}
                       </select>
+                    </div>
+                  )}
+
+                                    {!editingChild && active.length > 0 && (
+                    <div className="bg-gradient-to-br from-purple-500/15 via-gold/10 to-transparent border border-purple-500/30 rounded-xl p-3.5 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-semibold text-purple-300 flex items-center gap-1.5">
+                          <Baby className="w-4 h-4 text-gold" />
+                          🎉 Diskon Saudara Kandung (Sibling Discount) Aktif!
+                        </label>
+                        <span className="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
+                          GRATIS (100% OFF)
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                        Anda telah memiliki anak terdaftar (<strong>{active.map(c => c.name).join(", ")}</strong>).
+                        Biaya pendaftaran (Registration Fee) anak ke-2 dan seterusnya adalah <strong className="text-emerald-400">100% Bebas Biaya (Hemat Rp 300.000)</strong>!
+                      </p>
+                    </div>
+                  )}
+
+                  {!editingChild && active.length === 0 && (
+                    <div className="bg-gradient-to-br from-gold/10 via-gold/5 to-transparent border border-gold/25 rounded-xl p-3.5 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-semibold text-gold flex items-center gap-1.5">
+                          <Gift className="w-3.5 h-3.5" />
+                          Kode Referral / Promo Pameran (Opsional)
+                        </label>
+                        <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-medium">
+                          Hemat Rp 50.000 - Rp 100.000
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground leading-snug">
+                        Masukkan kode referral, nama murid yang mengajak, atau kode promo pameran (contoh: <code className="text-gold font-mono">PAMERAN</code>).
+                      </p>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={referralInput}
+                          onChange={(e) => {
+                            setReferralInput(e.target.value);
+                            setReferralResult(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              handleValidateReferral(referralInput);
+                            }
+                          }}
+                          placeholder="Kode referral / nama murid / kode promo..."
+                          className="flex-1 px-3 py-2 bg-background border border-border rounded-lg text-xs focus:outline-none focus:border-gold"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleValidateReferral(referralInput)}
+                          disabled={referralValidating || !referralInput.trim()}
+                          className="px-3 py-2 bg-gold text-black rounded-lg text-xs font-semibold hover:bg-gold-light transition-all flex items-center gap-1 disabled:opacity-50 flex-shrink-0"
+                        >
+                          {referralValidating && <Loader2 className="w-3 h-3 animate-spin" />}
+                          Cek
+                        </button>
+                      </div>
+                      {referralResult && (
+                        <div
+                          className={`text-[11px] p-2.5 rounded-lg flex items-start gap-2 ${
+                            referralResult.valid
+                              ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-300"
+                              : "bg-red-500/10 border border-red-500/20 text-red-400"
+                          }`}
+                        >
+                          {referralResult.valid ? (
+                            <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-emerald-400" />
+                          ) : (
+                            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-red-400" />
+                          )}
+                          <div className="space-y-0.5">
+                            <p className="font-medium">{referralResult.valid ? "Diskon Berhasil Diterapkan!" : "Kode Tidak Ditemukan"}</p>
+                            <p className="text-[10px] opacity-90">{referralResult.valid ? referralResult.message : referralResult.error}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">Gender</label>
+                    <div className="flex gap-3">
+                      {["Female", "Male", "Other"].map((g) => (
+                        <button key={g} onClick={() => setFormData({ ...formData, gender: g })} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all border ${formData.gender === g ? "bg-gold text-black border-gold" : "bg-muted border-border hover:border-gold/50"}`}>
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {ranks.length > 0 && (
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">Academic Level (Optional)</label>
+                      <select
+                        value={formData.level_id}
+                        onChange={(e) => setFormData({ ...formData, level_id: e.target.value })}
+                        className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg text-sm focus:outline-none focus:border-gold transition-colors"
+                      >
+                        <option value="">-- Select Level --</option>
+                        {ranks.map((r: any) => (
+                          <option key={r.id} value={r.id}>
+                            {r.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {!editingChild && (
+                    <div className="bg-gradient-to-br from-gold/10 via-gold/5 to-transparent border border-gold/25 rounded-xl p-3.5 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-semibold text-gold flex items-center gap-1.5">
+                          <Gift className="w-3.5 h-3.5" />
+                          Kode Referral / Murid yang Mengajak (Opsional)
+                        </label>
+                        <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-medium">
+                          Hemat Rp 50.000
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground leading-snug">
+                        Sebutkan nama murid atau masukkan kode referral teman untuk klaim potongan biaya pendaftaran.
+                      </p>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={referralInput}
+                          onChange={(e) => {
+                            setReferralInput(e.target.value);
+                            setReferralResult(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              handleValidateReferral(referralInput);
+                            }
+                          }}
+                          placeholder="Contoh: REF-CLARA12 atau nama murid..."
+                          className="flex-1 px-3 py-2 bg-background border border-border rounded-lg text-xs focus:outline-none focus:border-gold"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleValidateReferral(referralInput)}
+                          disabled={referralValidating || !referralInput.trim()}
+                          className="px-3 py-2 bg-gold text-black rounded-lg text-xs font-semibold hover:bg-gold-light transition-all flex items-center gap-1 disabled:opacity-50 flex-shrink-0"
+                        >
+                          {referralValidating && <Loader2 className="w-3 h-3 animate-spin" />}
+                          Cek
+                        </button>
+                      </div>
+                      {referralResult && (
+                        <div
+                          className={`text-[11px] p-2.5 rounded-lg flex items-start gap-2 ${
+  referralResult.valid
+    ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
+    : 'bg-red-500/10 border border-red-500/20 text-red-400'
+}`}
+                        >
+                          {referralResult.valid ? (
+                            <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-emerald-400" />
+                          ) : (
+                            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-red-400" />
+                          )}
+                          <div className="space-y-0.5">
+                            <p className="font-medium">{referralResult.valid ? "Kode Referral Diterima!" : "Kode Tidak Ditemukan"}</p>
+                            <p className="text-[10px] opacity-90">{referralResult.valid ? referralResult.message : referralResult.error}</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 

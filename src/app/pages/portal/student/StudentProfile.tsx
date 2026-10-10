@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import {
   User, Mail, Phone, Lock, Eye, EyeOff, CheckCircle2,
-  MapPin, Loader2, GraduationCap, BookOpen,
+  MapPin, Loader2, GraduationCap, BookOpen, Gift, Copy, Check,
 } from "lucide-react";
 import { useAuth, odooCall } from "../../../context/AuthContext";
 
@@ -28,6 +28,8 @@ export default function StudentProfile() {
   const [showNew, setShowNew] = useState(false);
   const [passwordSaved, setPasswordSaved] = useState(false);
   const [passwordError, setPasswordError] = useState("");
+  const [copiedReferral, setCopiedReferral] = useState(false);
+  const referralCode = user?.referral_code || (user?.name ? `REF-${user.name.split(" ")[0].toUpperCase()}${user.id}` : "");
 
   useEffect(() => {
     async function fetchStudentData() {

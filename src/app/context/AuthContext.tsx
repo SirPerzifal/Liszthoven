@@ -13,6 +13,8 @@ export interface PortalUser {
   street: string;
   city: string;
   zip: string;
+  referral_code?: string;
+  pending_referral_rewards?: number;
 }
 
 const REDIRECT_MAP: Record<UserRole, string> = {
